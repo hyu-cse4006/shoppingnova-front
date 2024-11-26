@@ -6,12 +6,7 @@ import { useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import { lerp } from "three/src/math/MathUtils.js";
 import { colorFromTemperature } from "@/utils/three/color";
-import {
-  betaRandom,
-  CumulativeDistributionFunction,
-  gammaRandom,
-  precomputedNormal,
-} from "@/utils/three/rand";
+import { betaRandom, gammaRandom, precomputedNormal } from "@/utils/three/rand";
 
 type GalaxyLayerProps = {
   count: number;
@@ -39,7 +34,6 @@ export default function GalaxyLayer({
   yAmp = 1,
   textureUrl,
 }: GalaxyLayerProps) {
-  //   console.log(barredSpiral);]
   const dummy = useMemo(() => new THREE.Object3D(), []);
   const texture = useTexture(textureUrl);
   const ref = useRef<THREE.InstancedMesh>(null!);
