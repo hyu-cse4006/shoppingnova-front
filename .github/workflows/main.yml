@@ -48,4 +48,4 @@ jobs:
         run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://nova-frontend-deploy/$PROJECT_NAME/$GITHUB_SHA.zip
 
       - name: Code Deploy
-        run: aws deploy create-deployment --application-name nova-frontend-codedeploy --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name novagroup --s3-location bucket=nova-frontend-deploy ,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
+        run: aws deploy create-deployment --application-name nova-frontend-codedeploy --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name novagroup --s3-location bucket=nova-frontend-deploy,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
