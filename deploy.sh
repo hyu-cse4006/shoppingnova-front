@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-REPOSITORY=/home/ec2-user
+REPOSITORY=/home/ec2-user/app
 cd $REPOSITORY
 
 echo "> 배포 완료"
