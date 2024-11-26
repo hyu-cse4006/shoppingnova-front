@@ -1,24 +1,27 @@
-import { Loader, OrbitControls } from "@react-three/drei";
+import OrbitConrols from "@/components/three/OrbitConrols";
+import Galaxy from "@/components/three/Galaxy";
+import { Loader, PerspectiveCamera } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
+
 const ThreeCanvas = () => {
   return (
     <>
-      <Canvas shadows>
+      <Canvas
+        onCreated={({ gl }) => {
+          gl.setClearColor(0x000000, 1);
+        }}
+      >
         {/* <OrbitControls enablePan={false} /> */}
 
         <Suspense fallback={null}>
-          <ambientLight intensity={0.5} />
-          <spotLight position={[10, 10, 10]} intensity={0.75} />
-          <OrbitControls />
-          <mesh scale={[1, 1, 1]}>
-            <boxGeometry args={[1, 1, 1]} />
-            <meshStandardMaterial color={"orange"} />
-          </mesh>
-          <mesh scale={[1, 1, 1]} position={[0, 0, -10]}>
-            <boxGeometry args={[1000, 1000, 1]} />
-            <meshStandardMaterial />
-          </mesh>
+          <OrbitConrols />
+          <PerspectiveCamera position={[0, 3, 2]} />
+          {/* <mesh>
+            <boxGeometry />
+            <meshNormalMaterial />
+          </mesh> */}
+          <Galaxy />
         </Suspense>
       </Canvas>
       <Loader />
