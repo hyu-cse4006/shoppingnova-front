@@ -1,0 +1,51 @@
+on:
+  push:
+    branches:
+      - main
+
+name: Deploy Project to Amazon EC2 for FE
+env:
+  PROJECT_NAME: codedeploy_front
+
+jobs:
+  build:
+    name: CODEDEPLOY-FE
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: Install node
+        run: npm install
+        shell: bash
+
+      - name: Build with npm
+        run: npm run build
+        shell: bash
+
+      - name: Make zip file
+        run: zip -qq -r ./$GITHUB_SHA.zip .
+        shell: bash
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://nova-frontend-deploy/$PROJECT_NAME/$GITHUB_SHA.zip
+
+      - name: Code Deploy
+        run: aws deploy create-deployment --application-name nova-frontend-codedeploy --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name novagroup --s3-location bucket=nova-frontend-deploy,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
