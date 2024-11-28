@@ -1,11 +1,16 @@
 import ThreeCanvas from "@/components/three/ThreeCanvas";
+import { Outlet } from "react-router-dom";
 
 const Home = () => {
   return (
-    <main className="app transition-all ease-in">
+    <div
+      className="app transition-all ease-in"
+      style={{ position: "relative" }}
+    >
       {/* <HomeAnimateContainer /> */}
       <ThreeCanvas />
-    </main>
+      <Outlet />
+    </div>
   );
 };
 

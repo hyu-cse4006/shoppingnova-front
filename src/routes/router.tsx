@@ -2,19 +2,31 @@ import Home from "@/routes";
 import { Login } from "@/routes/login";
 import { Register } from "@/routes/register";
 import { createBrowserRouter } from "react-router-dom";
+import MainPage from "./MainPage";
+import Cart from "./Cart";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "",
     element: <Home />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
+    children: [
+      {
+        path: "/",
+        element: <MainPage />,
+      },
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
+      },
+      {
+        path: "cart",
+        element: <Cart />,
+      },
+    ],
   },
 ]);
 
