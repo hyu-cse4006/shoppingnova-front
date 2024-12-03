@@ -1,13 +1,13 @@
-import GalaxyLayer from "@/components/three/GalaxyLayer";
+import GalaxyLayer from "@/components/three/galaxy/GalaxyLayer";
 import { Suspense } from "react";
 import particle from "@/assets/particle-example.png";
 
 export default function Galaxy() {
   return (
-    <Suspense>
+    <group>
       <GalaxyLayer
         textureUrl={particle}
-        count={200}
+        count={100}
         temperature={10000}
         minRadius={0.01}
         maxRadius={0.2}
@@ -15,14 +15,14 @@ export default function Galaxy() {
       />
       <GalaxyLayer
         textureUrl={particle}
-        count={1000}
+        count={200}
         temperature={9500}
         minRadius={0.2}
         maxRadius={0.6}
       />
       <GalaxyLayer
         textureUrl={particle}
-        count={2500}
+        count={200}
         temperature={8000}
         minRadius={0.6}
         maxRadius={1.0}
@@ -30,11 +30,11 @@ export default function Galaxy() {
       />
       <GalaxyLayer
         textureUrl={particle}
-        count={5000}
+        count={2000}
         temperature={6500}
         minRadius={1.0}
         maxRadius={2.0}
       />
-    </Suspense>
+    </group>
   );
 }
