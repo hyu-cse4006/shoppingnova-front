@@ -1,3 +1,4 @@
+import categories from "@/utils/\bcategory";
 import { useCurrentCategory } from "@/utils/global/useCurrentCategory";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -51,9 +52,22 @@ const S = {
 const CategoryView = () => {
   const [items, setItems] = useState<string[]>(["home"]);
   const { currentCategory, setCurrentCategory } = useCurrentCategory();
+  const makeCategoryPath = (name: string): string[] => {
+    const path: string[] = [];
+    let current = categories.find((category) => category.name === name);
+
+    while (current) {
+      path.unshift(current.name);
+      current = categories.find(
+        (category) => category.id === current?.parent_id
+      );
+    }
+  };
   useEffect(() => {
-    if (currentCategory !== "")
-      setItems((items) => [...items, currentCategory]);
+    if (currentCategory) {
+      const path = makeCategoryPath(currentCategory);
+      setItems(["home", ...path]);
+    }
   }, [currentCategory]);
   return (
     <S.Container>
