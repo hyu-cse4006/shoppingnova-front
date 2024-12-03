@@ -1,11 +1,11 @@
 import { create } from "zustand";
 
 type CategoryState = {
-  category: string;
-  setCategory: (value: string) => void;
+  currentCategory: string;
+  setCurrentCategory: (value: string) => void;
 };
 
 export const useCurrentCategory = create<CategoryState>((set) => ({
-  category: "",
-  setCategory: (newVal) => set(() => ({ category: newVal })),
+  currentCategory: "",
+  setCurrentCategory: (newVal) => set(() => ({ currentCategory: newVal })),
 }));
