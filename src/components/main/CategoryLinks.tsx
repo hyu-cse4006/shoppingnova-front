@@ -18,7 +18,7 @@ const categories = [
     name: "Cleaner",
   },
 ];
-const CategoryLinks = () => {
+export default function CategoryLinks() {
   return (
     <group>
       {categories.map((category) => (
@@ -26,6 +26,4 @@ const CategoryLinks = () => {
       ))}
     </group>
   );
-};
-
-export default CategoryLinks;
+}
