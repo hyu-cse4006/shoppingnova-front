@@ -5,8 +5,8 @@ import { create } from "zustand";
 interface CameraState {
   isMoving: boolean;
   setIsMoving: (isMoving: boolean) => void;
-  isWarping: boolean;
-  setIsWarping: (isWarping: boolean) => void;
+  isWarping: string;
+  setIsWarping: (isWarping: string) => void;
   currentView: THREE.Vector3;
   setCurrentView: (position: THREE.Vector3) => void;
   targetView: THREE.Object3D | null;
@@ -19,7 +19,7 @@ interface CameraState {
 export const useCameraStore = create<CameraState>()((set) => ({
   isMoving: false,
   setIsMoving: (isMoving) => set({ isMoving }),
-  isWarping: false,
+  isWarping: "HOME",
   setIsWarping: (isWarping) => set({ isWarping }),
   currentView: new THREE.Vector3(0, 0, 0),
   setCurrentView: (position: THREE.Vector3) => set({ currentView: position }),

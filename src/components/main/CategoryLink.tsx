@@ -50,7 +50,7 @@ const S = {
 };
 
 export default function CategoryLink({ data }: LinkProps) {
-  const { targetView, setTargetView } = useCameraStore();
+  const { targetView, setTargetView, setIsWarping } = useCameraStore();
 
   const groupRef = useRef<Group>(null!);
 
@@ -59,16 +59,12 @@ export default function CategoryLink({ data }: LinkProps) {
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
     console.log(e);
-    // e.stopPropagation();
-
-    const splitedPath = location.pathname.split("/");
-    const category = splitedPath[1];
-    let path = "/";
-    path += category + "/";
+    const path = "/";
 
     if (groupRef.current !== targetView) {
       setTargetView(groupRef.current);
-      // return navigate(path + data.name);
+      setIsWarping(data.name);
+      return navigate(path + data.name);
     }
   };
   return (

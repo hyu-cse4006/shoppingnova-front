@@ -17,10 +17,6 @@ const categories = [
     position: { x: -8000, y: 2000, z: 4000 },
     name: "Cleaner",
   },
-  {
-    position: { x: -10000, y: 10, z: 0 },
-    name: "PC & MONITOR1",
-  },
 ];
 export default function CategoryLinks() {
   return (

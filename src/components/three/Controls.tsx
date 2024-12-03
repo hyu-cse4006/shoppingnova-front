@@ -47,9 +47,8 @@ export default function Controls() {
     currentView,
     setCurrentView,
     targetView,
-    setTargetView,
+    isWarping,
     setIsMoving,
-    setIsWarping,
     reset,
   } = useCameraStore();
   const { view, setView } = useViewStore();
@@ -64,10 +63,6 @@ export default function Controls() {
 
     if (targetView) {
       targetView.getWorldPosition(targetPosition);
-      // targetPosition
-      //   .sub(state.camera.position)
-      //   .applyAxisAngle(new THREE.Vector3(0, 1, 0), -Math.PI / 6)
-      //   .add(state.camera.position);
       const distance = targetPosition.clone().sub(state.camera.position);
       distance.y = 0;
       if (distance.length() > LENGTH_LIMIT) distance.setLength(LENGTH_LIMIT);
@@ -79,7 +74,6 @@ export default function Controls() {
 
       if (direction.length() > LENGTH_LIMIT) {
         direction.setLength(LENGTH_LIMIT);
-        setIsWarping(false);
         setIsMoving(true);
 
         setCurrentView(currentView.add(direction));
@@ -89,7 +83,7 @@ export default function Controls() {
         controlsRef.current.target = currentView;
       } else {
         reset();
-        setView("123");
+        setView(isWarping);
       }
     }
   });

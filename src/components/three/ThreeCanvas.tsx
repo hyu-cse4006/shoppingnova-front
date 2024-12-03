@@ -2,7 +2,6 @@ import CategoryLinks from "@/components/main/CategoryLinks";
 import CameraLight from "@/components/three/CameraLight";
 import Controls from "@/components/three/Controls";
 import BackgroundStars from "@/components/three/galaxy/BackgroundStars";
-import Galaxy from "@/components/three/galaxy/Galaxy";
 import GalaxyPoints from "@/components/three/galaxy/GalaxyPoints";
 import { CAMERA_FAR, CAMERA_POSITION } from "@/constants/camera";
 import { useCameraStore } from "@/store/useCameraStore";
@@ -24,7 +23,7 @@ const ThreeCanvas = () => {
   const { cameraToCurrentView, setCameraToCurrentView, isMoving } =
     useCameraStore();
 
-  const { view } = useViewStore();
+  const { view, displayItem } = useViewStore();
 
   const [dpr, setDpr] = useState(1);
 
@@ -42,7 +41,7 @@ const ThreeCanvas = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.1 }}
+          transition={{ duration: 1.0 }}
         >
           <Canvas
             dpr={dpr}
@@ -69,7 +68,9 @@ const ThreeCanvas = () => {
             <ambientLight color="#fff" intensity={1} />
 
             <BackgroundStars />
-            <GalaxyPoints>{!isMoving && <CategoryLinks />}</GalaxyPoints>
+            <GalaxyPoints>
+              {!isMoving && !displayItem && <CategoryLinks />}
+            </GalaxyPoints>
             <Controls />
             <CameraLight />
           </Canvas>
