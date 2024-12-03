@@ -10,10 +10,11 @@ const S = {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: black;
+    background-color: #070614;
     padding: 10px;
   `,
   Logo: styled.div`
+    cursor: pointer;
     & > span:nth-child(1) {
       font-family: Abel;
       font-size: 32px;
@@ -64,7 +65,7 @@ const Header = () => {
         <div />
       )}
 
-      <S.Logo>
+      <S.Logo onClick={() => navigate("/")}>
         <span>SHOPPING</span>
         <span>NOVA</span>
       </S.Logo>

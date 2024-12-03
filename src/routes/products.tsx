@@ -5,9 +5,9 @@ import { useParams } from "react-router-dom";
 
 const Products = () => {
   const mapCateID = (name: string | undefined) => {
-    categories.find(
-      (item) =>
-        item.name.toLowerCase().replace(/ /g, "_").replace("&", "") === name
+    return categories.find(
+      (category) =>
+        category.name.toLowerCase().replace(/ /g, "_").replace("&", "") === name
     );
   };
   const { categoryName } = useParams();
@@ -20,21 +20,30 @@ const Products = () => {
       ?.toLowerCase()
       .replace(/ /g, "_")
       .replace("&", "");
+    console.log(params);
     const config = {
       method: "GET",
-      url: "http://3.35.58.101:8080/api/category/products",
+      url: `http://3.35.58.101:8080/api/products/${mapCateID(params).id}`,
       headers: {
         "Content-Type": "application/json",
       },
-      params: mapCateID(params),
     };
     fetchData(config);
+  }, [categoryName]);
+  useEffect(() => {
     if (response && response.data) {
-      console.log(response);
       setProductList(response.data);
     }
-  }, []);
-  return <div></div>;
+  }, [response]);
+  return (
+    <div>
+      {productList.length > 0 ? (
+        productList.map((item, idx) => <div key={idx}>{item.name}</div>)
+      ) : (
+        <div>No products found</div>
+      )}
+    </div>
+  );
 };
 
 export default Products;

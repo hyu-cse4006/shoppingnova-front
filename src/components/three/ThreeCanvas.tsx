@@ -4,6 +4,7 @@ import Controls from "@/components/three/Controls";
 import BackgroundStars from "@/components/three/galaxy/BackgroundStars";
 import GalaxyPoints from "@/components/three/galaxy/GalaxyPoints";
 import { CAMERA_FAR, CAMERA_POSITION } from "@/constants/camera";
+import Products from "@/routes/products";
 import { useCameraStore } from "@/store/useCameraStore";
 import { useViewStore } from "@/store/useViewStore";
 import { PerformanceMonitor } from "@react-three/drei";
@@ -11,6 +12,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import { AnimatePresence, motion } from "motion/react";
 import { useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { type Group, type Object3DEventMap } from "three";
 
 const ThreeCanvas = () => {
@@ -26,7 +28,9 @@ const ThreeCanvas = () => {
   const { view, displayItem } = useViewStore();
 
   const [dpr, setDpr] = useState(1);
-
+  const location = useLocation();
+  console.log(location);
+  console.log(location.pathname.split("/"));
   return (
     <div
       className="h-screen w-screen"
@@ -69,7 +73,12 @@ const ThreeCanvas = () => {
 
             <BackgroundStars />
             <GalaxyPoints>
-              {!isMoving && !displayItem && <CategoryLinks />}
+              {location.pathname.split("/")[1] === "product" && <Products />}
+              {!isMoving &&
+                !displayItem &&
+                location.pathname.split("/")[1] !== "product" && (
+                  <CategoryLinks location={location.pathname.split("/")[1]} />
+                )}
             </GalaxyPoints>
             <Controls />
             <CameraLight />
