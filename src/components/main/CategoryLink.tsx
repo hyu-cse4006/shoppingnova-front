@@ -14,6 +14,7 @@ type LinkProps = {
 export interface CategoryType {
   position: { x: number; y: number; z: number };
   name: string;
+  id: number;
 }
 const S = {
   Container: styled(motion.div)`
@@ -34,6 +35,7 @@ const S = {
     text-align: center;
     color: white;
     user-select: none;
+    white-space: nowrap;
   `,
   Item: styled.button`
     background: transparent;
@@ -64,7 +66,11 @@ export default function CategoryLink({ data }: LinkProps) {
     if (groupRef.current !== targetView) {
       setTargetView(groupRef.current);
       setIsWarping(data.name);
-      return navigate(path + data.name);
+      if (data.id === 3 || data.id === 4) {
+        return navigate(path + data.name + "/product");
+      } else {
+        return navigate(path + data.name);
+      }
     }
   };
   return (

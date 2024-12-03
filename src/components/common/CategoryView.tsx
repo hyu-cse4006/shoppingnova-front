@@ -51,24 +51,6 @@ const S = {
 };
 const CategoryView = () => {
   const [items, setItems] = useState<string[]>(["home"]);
-  const { currentCategory, setCurrentCategory } = useCurrentCategory();
-  const makeCategoryPath = (name: string): string[] => {
-    const path: string[] = [];
-    let current = categories.find((category) => category.name === name);
-
-    while (current) {
-      path.unshift(current.name);
-      current = categories.find(
-        (category) => category.id === current?.parent_id
-      );
-    }
-  };
-  useEffect(() => {
-    if (currentCategory) {
-      const path = makeCategoryPath(currentCategory);
-      setItems(["home", ...path]);
-    }
-  }, [currentCategory]);
   return (
     <S.Container>
       {items.map((item, idx) => (
