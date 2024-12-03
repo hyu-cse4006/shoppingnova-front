@@ -1,3 +1,4 @@
+import Header from "@/components/common/Header";
 import ThreeCanvas from "@/components/three/ThreeCanvas";
 import { Outlet } from "react-router-dom";
 
@@ -8,6 +9,7 @@ const Home = () => {
       style={{ position: "relative" }}
     >
       {/* <HomeAnimateContainer /> */}
+      <Header />
       <ThreeCanvas />
       <Outlet />
     </div>
