@@ -1,4 +1,5 @@
 import { useCameraStore } from "@/store/useCameraStore";
+import { useCurrentCategory } from "@/utils/global/useCurrentCategory";
 import { Html } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber";
 import { motion } from "motion/react";
@@ -36,11 +37,12 @@ const S = {
   `,
   Item: styled.button`
     background: transparent;
-    width: 60px;
-    height: 60px;
+    width: 36px;
+    height: 36px;
     background-color: rgba(0, 0, 0, 0.3);
+    opacity: 0.9;
     border: 1px solid #4676f0;
-    outline: 1px solid #4676f0; /* 외부 테두리 */
+    outline: 1px solid #4676f0;
     outline-offset: -6px;
     border-radius: 50%;
     user-select: none;
