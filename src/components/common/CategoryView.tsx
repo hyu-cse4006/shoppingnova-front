@@ -1,5 +1,5 @@
 import { useCurrentCategory } from "@/utils/global/useCurrentCategory";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 const S = {
   Container: styled.div`
@@ -36,7 +36,7 @@ const S = {
     position: absolute;
     right: 50%;
     top: 12px;
-    border-top: 1px dashed #ccc;
+    border-top: 0.5px dashed #ccc;
     z-index: 0;
   `,
   RightLine: styled.div`
@@ -44,13 +44,17 @@ const S = {
     position: absolute;
     left: 50%;
     top: 12px;
-    border-top: 1px dashed #ccc;
+    border-top: 0.5px dashed #ccc;
     z-index: 0;
   `,
 };
 const CategoryView = () => {
-  const items = ["home", "monitor", "oled"];
-  const { category, setCategory } = useCurrentCategory();
+  const [items, setItems] = useState<string[]>(["home"]);
+  const { currentCategory, setCurrentCategory } = useCurrentCategory();
+  useEffect(() => {
+    if (currentCategory !== "")
+      setItems((items) => [...items, currentCategory]);
+  }, [currentCategory]);
   return (
     <S.Container>
       {items.map((item, idx) => (
