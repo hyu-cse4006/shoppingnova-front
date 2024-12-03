@@ -17,7 +17,7 @@ export default function GalaxyPoints({
 }: PropsType) {
   const galaxyRef = useRef<THREE.Group>(null!);
 
-  useFrame((_, delta) => (galaxyRef.current.rotation.y += delta / 2));
+  useFrame((_, delta) => (galaxyRef.current.rotation.y += delta / 100));
 
   const stars = useMemo(() => {
     const starList = [];
