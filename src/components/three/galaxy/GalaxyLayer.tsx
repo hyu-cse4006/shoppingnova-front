@@ -95,8 +95,8 @@ export default function GalaxyLayer({
         vertexShader: barredSpiral,
         fragmentShader,
         uniforms,
-        transparent: true,
         side: THREE.DoubleSide,
+        transparent: true,
         depthTest: false,
       }),
     [uniforms]
