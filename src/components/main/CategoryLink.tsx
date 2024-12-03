@@ -36,8 +36,8 @@ const S = {
   `,
   Item: styled.div`
     background: transparent;
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     border: 1px solid #4676f0;
     outline: 1px solid #4676f0; /* 외부 테두리 */
     outline-offset: 5px;

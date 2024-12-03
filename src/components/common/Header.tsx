@@ -5,9 +5,12 @@ import { useUserToken } from "@/utils/global/useUserToken";
 const S = {
   Container: styled.div`
     width: 100%;
-    height: 60px;
+    height: 80px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    background-color: black;
+    padding: 10px;
   `,
   Logo: styled.div`
     & > span:nth-child(1) {
@@ -30,18 +33,19 @@ const S = {
     }
   `,
   SigninBtn: styled.div`
-    min-height: 32px;
-    padding: 4px 12px 4px 12px;
+    padding: 8px 12px 8px 12px;
     border-radius: 12px;
     border: 1px solid #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
     & > span {
       font-family: Poppins;
       font-size: 15px;
       font-weight: 400;
-      line-height: 22.5px;
       letter-spacing: 0.04em;
       text-align: center;
-
       color: white;
     }
   `,
@@ -55,7 +59,7 @@ const Header = () => {
         <span>LG</span>
         <span>VERSE</span>
       </S.Logo>
-      {token !== "" && (
+      {token === "" && (
         <S.SigninBtn>
           <span>Sign in</span>
         </S.SigninBtn>
