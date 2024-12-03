@@ -46,7 +46,7 @@ export const S = {
     width: 100%;
   `,
   Input: styled.input.attrs((props) => ({
-    type: "text",
+    type: props.type,
     placeholder: props.placeholder,
   }))`
     width: 100%;

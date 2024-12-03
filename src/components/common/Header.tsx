@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import CategoryView from "./CategoryView";
 import { useUserToken } from "@/utils/global/useUserToken";
+import { useLocation, useNavigate } from "react-router-dom";
 const S = {
   Container: styled.div`
     width: 100%;
@@ -52,17 +53,27 @@ const S = {
 };
 const Header = () => {
   const { token, setToken } = useUserToken();
+  const navigate = useNavigate();
+  const location = useLocation();
   return (
     <S.Container>
-      <CategoryView />
+      {location.pathname !== "/login" && location.pathname !== "/register" ? (
+        <CategoryView />
+      ) : (
+        // 나머지 요소 정렬을 위해 dummy 요소 추가
+        <div />
+      )}
+
       <S.Logo>
         <span>SHOPPING</span>
         <span>NOVA</span>
       </S.Logo>
-      {token === "" && (
-        <S.SigninBtn>
+      {token === "" ? (
+        <S.SigninBtn onClick={() => navigate("/login")}>
           <span>Sign in</span>
         </S.SigninBtn>
+      ) : (
+        <div />
       )}
     </S.Container>
   );
