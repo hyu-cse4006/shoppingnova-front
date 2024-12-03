@@ -56,8 +56,8 @@ const Header = () => {
     <S.Container>
       <CategoryView />
       <S.Logo>
-        <span>LG</span>
-        <span>VERSE</span>
+        <span>SHOPPING</span>
+        <span>NOVA</span>
       </S.Logo>
       {token === "" && (
         <S.SigninBtn>

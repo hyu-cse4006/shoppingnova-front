@@ -1,7 +1,14 @@
 const category = [
-  { name: "HOME", path: "/" },
-  { name: "PC & MONITOR", path: "/pc-monitor" },
-  { name: "MONITOR", path: "/pc-monitor/monitor" },
+  { TV: ["OLED", "QNED", "LED", "ULTRA HD", "LifeStyle Screen"] },
+  {
+    Refrigerator: [
+      "STEM",
+      "DoubleDoor",
+      "TOP_RE/BOT_FREE",
+      "NORMAL",
+      "PAIR_INSTALL",
+    ],
+  },
 ];
 
 export default category;
