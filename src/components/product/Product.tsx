@@ -4,9 +4,10 @@ import { useCameraStore } from "@/store/useCameraStore";
 import { useViewStore } from "@/store/useViewStore";
 import { Html } from "@react-three/drei";
 import { MeshProps, ThreeEvent } from "@react-three/fiber";
-import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { Mesh } from "three";
 
 interface ProductProps {
   meshProps: MeshProps;
@@ -17,6 +18,7 @@ interface ProductProps {
 export default function Product({ meshProps, color, product }: ProductProps) {
   const { targetView, setTargetView } = useCameraStore();
   const { setView } = useViewStore();
+  const meshRef = useRef<Mesh>(null!);
 
   const [isHovered, setIsHovered] = useState(false);
   const [size, setSize] = useState(0);
@@ -24,11 +26,11 @@ export default function Product({ meshProps, color, product }: ProductProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  //   const { postId: id } = useParams();
+  const { productId: id } = useParams();
 
-  //   useEffect(() => {
-  //     if (id && Number(id) === postId) setTargetView(meshRef.current);
-  //   }, [id]);
+  useEffect(() => {
+    if (id && Number(id) === product.id) setTargetView(meshRef.current);
+  }, [id]);
 
   //   useFrame((_, delta) => {
   //     if (starState === "created") {
@@ -42,27 +44,14 @@ export default function Product({ meshProps, color, product }: ProductProps) {
   //       else setSize(0);
   //     }
   //   });
-
-  //   const handleMeshClick = (e: ThreeEvent<MouseEvent>) => {
-  //     e.stopPropagation();
-
-  //     const splitedPath = location.pathname.split("/");
-  //     const page = splitedPath[1];
-  //     const nickName = splitedPath[2];
-  //     let path = "/";
-  //     if (page === "home") path += page + "/";
-  //     else path += page + "/" + nickName + "/";
-
-  //     if (meshRef.current !== targetView) {
-  //       setView("DETAIL");
-  //       setTargetView(meshRef.current);
-  //       return navigate(path + postId);
-  //     }
-
-  //     setView("POST");
-  //     navigate(path + postId + "/detail");
-  //   };
-
+  const handleMeshClick = (e: ThreeEvent<MouseEvent>) => {
+    e.stopPropagation();
+    const splitedPath = location.pathname.split("/");
+    const page = splitedPath[1];
+    const path = "/";
+    setTargetView(meshRef.current);
+    navigate(path + page + "/product/" + product.id);
+  };
   const handlePointerOver = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     setIsHovered(true);
@@ -75,14 +64,15 @@ export default function Product({ meshProps, color, product }: ProductProps) {
 
   return (
     <Star
+      ref={meshRef}
       color={color}
-      //   onClick={handleMeshClick}
+      onClick={handleMeshClick}
       onPointerOver={handlePointerOver}
       onPointerOut={handlePointerOut}
       {...meshProps}
     >
       {isHovered && (
-        <Html>
+        <Html style={{ pointerEvents: "none" }}>
           <Label>{product.name}</Label>
         </Html>
       )}

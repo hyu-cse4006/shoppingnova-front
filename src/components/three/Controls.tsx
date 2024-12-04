@@ -57,35 +57,55 @@ export default function Controls() {
 
   useEffect(() => {
     setCameraToCurrentView(currentView.distanceTo(state.camera.position));
-  }, []);
+  }, [view]);
   useFrame((state, delta) => {
     const targetPosition = position.set(0, 0, 0);
     const LENGTH_LIMIT = ((cameraToCurrentView + 5000) * delta) / 2;
 
     if (targetView) {
       targetView.getWorldPosition(targetPosition);
-      const distance = targetPosition.clone().sub(state.camera.position);
-      distance.y = 0;
-      if (distance.length() > LENGTH_LIMIT) distance.setLength(LENGTH_LIMIT);
-      state.camera.position.add(distance);
+      if (!displayItem) {
+        const distance = targetPosition.clone().sub(state.camera.position);
+        distance.y = 0;
+        if (distance.length() > LENGTH_LIMIT) distance.setLength(LENGTH_LIMIT);
+        state.camera.position.add(distance);
+      } else {
+        targetPosition
+          .sub(state.camera.position)
+          .applyAxisAngle(new THREE.Vector3(0, 1, 0), -Math.PI / 6)
+          .add(state.camera.position);
+        const distance = targetPosition.clone().sub(state.camera.position);
+        distance.x = 0;
+        distance.z = 0;
+        if (distance.length() > LENGTH_LIMIT) distance.setLength(LENGTH_LIMIT);
+        state.camera.position.add(distance);
+      }
     }
 
-    if (targetView && targetPosition !== currentView) {
+    if (targetPosition !== currentView) {
       const direction = targetPosition.sub(currentView);
 
-      if (direction.length() > LENGTH_LIMIT) {
-        direction.setLength(LENGTH_LIMIT);
-        setIsMoving(true);
+      if (!displayItem) {
+        if (direction.length() > LENGTH_LIMIT) {
+          direction.setLength(LENGTH_LIMIT);
+          setIsMoving(true);
+
+          setCurrentView(currentView.add(direction));
+          setPostViewCamera(state.camera, currentView, LENGTH_LIMIT);
+          controlsRef.current.target = currentView;
+        } else if (isWarping) {
+          reset();
+          setView(isWarping);
+          setIsWarping(null);
+        }
+      } else {
+        if (direction.length() > LENGTH_LIMIT)
+          direction.setLength(LENGTH_LIMIT);
 
         setCurrentView(currentView.add(direction));
-        if (targetView)
-          setPostViewCamera(state.camera, currentView, LENGTH_LIMIT);
-        else setCameraPosition(state.camera, currentView, cameraToCurrentView);
+        setCameraPosition(state.camera, currentView, cameraToCurrentView);
+
         controlsRef.current.target = currentView;
-      } else if (isWarping) {
-        reset();
-        setView(isWarping);
-        setIsWarping(null);
       }
     }
   });
