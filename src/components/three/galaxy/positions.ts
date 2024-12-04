@@ -17,10 +17,10 @@ export const getSpiralPositions = () => {
   return new THREE.Vector3(x, y, z);
 };
 
-export const getSpherePositions = () => {
+export const getSpherePositions = (min_distance = 0, max_distance = 1) => {
   const x = getRandomFloat(0, Math.PI * 2);
   const y = getGaussianRandomFloat(0, Math.PI / 5);
-  const r = getGaussianRandomFloat(0, 1);
+  const r = getGaussianRandomFloat(min_distance, max_distance);
 
   return new THREE.Vector3(
     r * Math.sin(x) * Math.cos(y) * ARMS_X_DIST,

@@ -52,7 +52,7 @@ export default function Controls() {
     setIsMoving,
     reset,
   } = useCameraStore();
-  const { view, setView } = useViewStore();
+  const { view, setView, displayItem } = useViewStore();
   const state = useThree();
 
   useEffect(() => {
@@ -93,9 +93,9 @@ export default function Controls() {
   return (
     <OrbitControls
       ref={controlsRef}
-      enablePan={false}
-      enableRotate={false}
-      enableZoom={false}
+      enablePan={displayItem}
+      enableRotate={displayItem}
+      enableZoom={displayItem}
     />
   );
 }

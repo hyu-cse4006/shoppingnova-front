@@ -1,5 +1,5 @@
 import { useViewStore } from "@/store/useViewStore";
-import categories from "@/utils/\bcategory";
+import { categories } from "@/constants/category";
 import { useCurrentCategory } from "@/utils/global/useCurrentCategory";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";

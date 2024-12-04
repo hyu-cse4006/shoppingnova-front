@@ -1,12 +1,24 @@
 import Product from "@/components/product/Product";
-import categories from "@/utils/\bcategory";
+import { ProductType } from "@/components/product/type";
+import { getSpherePositions } from "@/components/three/galaxy/positions";
+import { starTypes } from "@/constants/galaxy";
+import { categories } from "@/constants/category";
 import useAxios from "@/utils/hook/useAxios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-
-type ProductType = Record<string, string | number>;
+import { useThree } from "@react-three/fiber";
 
 const Products = () => {
+  const { raycaster, camera } = useThree();
+
+  useEffect(() => {
+    // 카메라는 레이어 1을 렌더링 대상으로 유지
+    camera.layers.enable(1);
+
+    // Raycaster만 레이어 1을 감지하지 않도록 설정
+    raycaster.layers.disable(1);
+  }, [raycaster, camera]);
+
   const mapCateID = (name: string | undefined) => {
     return categories.find(
       (category) =>
@@ -14,12 +26,14 @@ const Products = () => {
     );
   };
   const { categoryName } = useParams();
+
   const { response, error, fetchData } = useAxios();
   const [productList, setProductList] = useState<ProductType[]>([]);
   useEffect(() => {
     const category = mapCateID(
       categoryName?.toLowerCase().replace(/ /g, "_").replace("&", "")
     );
+    console.log(category);
     if (!category) return;
     const config = {
       method: "GET",
@@ -35,13 +49,22 @@ const Products = () => {
       setProductList(response.data);
     }
   }, [response]);
-  return (
-    <div>
-      {productList.map((_, idx) => (
-        <Product key={idx} />
-      ))}
-    </div>
+
+  const productMap = useMemo(
+    () =>
+      productList.map((product, idx) => (
+        <Product
+          meshProps={{
+            position: getSpherePositions(1, 1.3),
+          }}
+          product={product}
+          color={starTypes.color[idx % starTypes.color.length]}
+          key={idx}
+        />
+      )),
+    [productList]
   );
+  return <>{productMap}</>;
 };
 
 export default Products;

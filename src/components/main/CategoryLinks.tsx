@@ -43,7 +43,7 @@ export default function CategoryLinks({ location }: CategoryProps) {
     },
   ]);
   const { response, error, fetchData } = useAxios();
-  console.log(view);
+
   useEffect(() => {
     const id = categories.find((category) => category.name === location)?.id;
     const config = {
@@ -56,7 +56,7 @@ export default function CategoryLinks({ location }: CategoryProps) {
     if (view !== "HOME") {
       fetchData(config);
     }
-  }, [view]);
+  }, [view, location, fetchData]);
   useEffect(() => {
     if (response && response.data && !error) {
       const n = response.data.length;

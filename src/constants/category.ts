@@ -1,4 +1,4 @@
-const categories = [
+export const categories = [
   {
     id: 1,
     name: "tv",
@@ -62,4 +62,3 @@ const categories = [
     parent_id: 2,
   },
 ];
-export default categories;
