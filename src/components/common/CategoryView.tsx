@@ -32,8 +32,7 @@ const S = {
     font-weight: 500;
     line-height: 22.5px;
     text-align: center;
-    text-underline-position: from-font;
-    text-decoration-skip-ink: none;
+    white-space: nowrap;
   `,
   LeftLine: styled.div`
     width: 100%;
@@ -75,8 +74,27 @@ const CategoryView = () => {
     console.log(currentItem);
     if (currentItem) {
       setItems((prevItems) => {
-        const newItem = currentItem.name.replace(/ /g, "_").replace("&", "");
-        return [...prevItems, newItem];
+        let parentItemName;
+        if (currentItem.parent_id !== null) {
+          const parentItem = categories.find(
+            (item) => item.id === currentItem.parent_id
+          );
+          if (parentItem) {
+            parentItemName = parentItem.name;
+          }
+        }
+        const newItemName = currentItem.name
+          .replace(/ /g, "_")
+          .replace("&", "");
+
+        const updatedItems = [...prevItems];
+        if (parentItemName && !updatedItems.includes(parentItemName)) {
+          updatedItems.push(parentItemName);
+        }
+        if (!updatedItems.includes(newItemName)) {
+          updatedItems.push(newItemName);
+        }
+        return updatedItems;
       });
     }
   }, [location]);
@@ -87,7 +105,7 @@ const CategoryView = () => {
           <S.Item key={idx}>
             <div>{idx !== 0 && <S.LeftLine />}</div>
             <S.Dot />
-            <S.Text>{item}</S.Text>
+            <S.Text>{item.toUpperCase().replace("_", " ")}</S.Text>
             <div>{idx < items.length - 1 && <S.RightLine />}</div>
           </S.Item>
         </>

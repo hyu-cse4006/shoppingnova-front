@@ -7,6 +7,7 @@ import { MeshProps, ThreeEvent } from "@react-three/fiber";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import ItemDetailModal from "../modal/ItemDetailModal";
 
 interface ProductProps {
   meshProps: MeshProps;
@@ -83,7 +84,8 @@ export default function Product({ meshProps, color, product }: ProductProps) {
     >
       {isHovered && (
         <Html>
-          <Label>{product.name}</Label>
+          <ItemDetailModal product={product} />
+          {/* <Label>{product.name}</Label> */}
         </Html>
       )}
     </Star>
