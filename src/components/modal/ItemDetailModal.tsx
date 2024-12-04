@@ -16,6 +16,14 @@ const S = {
     opacity: 0.8;
     position: relative;
   `,
+  CartBtn: styled.img`
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+  `,
   // 추후 img 로 변경
   Box: styled.div`
     width: 100px;
@@ -65,8 +73,11 @@ const S = {
 };
 // 추후 데이터 받아와서 표출하기
 const ItemDetailModal = () => {
+  const onCartClick = () => {};
+  const onDetailClick = () => {};
   return (
     <S.Container>
+      <S.CartBtn src="@/assets/shopping-cart.png" onClick={onCartClick} />
       <S.Box />
       <S.DetailBox>
         <span>Name: </span>
@@ -74,7 +85,7 @@ const ItemDetailModal = () => {
         <span>Rate: </span>
         <span>Rate Number: </span>
       </S.DetailBox>
-      <S.MoreDetailBtn>
+      <S.MoreDetailBtn onClick={onDetailClick}>
         <span>More in Detail</span>
       </S.MoreDetailBtn>
     </S.Container>
