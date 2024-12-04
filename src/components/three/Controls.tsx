@@ -48,6 +48,7 @@ export default function Controls() {
     setCurrentView,
     targetView,
     isWarping,
+    setIsWarping,
     setIsMoving,
     reset,
   } = useCameraStore();
@@ -81,9 +82,10 @@ export default function Controls() {
           setPostViewCamera(state.camera, currentView, LENGTH_LIMIT);
         else setCameraPosition(state.camera, currentView, cameraToCurrentView);
         controlsRef.current.target = currentView;
-      } else {
+      } else if (isWarping) {
         reset();
         setView(isWarping);
+        setIsWarping(null);
       }
     }
   });
