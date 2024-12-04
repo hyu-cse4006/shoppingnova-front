@@ -23,22 +23,22 @@ export default function CategoryLinks({ location }: CategoryProps) {
   const [categories, setCategories] = useState<Category[]>([
     {
       position: { x: 4000, y: 0, z: 2500 },
-      name: "TV",
+      name: "tv",
       id: 1,
     },
     {
       position: { x: 2000, y: 0, z: -7000 },
-      name: "Refrigerator",
+      name: "refrigerator",
       id: 2,
     },
     {
       position: { x: -6000, y: 0, z: -4000 },
-      name: "Dishwasher",
+      name: "dishwasher",
       id: 3,
     },
     {
       position: { x: -3000, y: 0, z: 6000 },
-      name: "Cleaner",
+      name: "cleaner",
       id: 4,
     },
   ]);

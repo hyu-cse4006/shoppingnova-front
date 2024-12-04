@@ -67,17 +67,16 @@ const CategoryView = () => {
       path[path.length - 1].toLowerCase() === "product" && path.length > 1
         ? path[path.length - 2]
         : path[path.length - 1];
+    console.log(currentCategoryName);
     const currentItem = categories.find((item) => {
-      return item.name.toLowerCase() === currentCategoryName.toLowerCase();
+      return item.name === currentCategoryName;
     });
 
-    console.log(path);
+    console.log(currentItem);
     if (currentItem) {
       setItems((prevItems) => {
         const newItem = currentItem.name.replace(/ /g, "_").replace("&", "");
-        return prevItems.includes(newItem)
-          ? prevItems
-          : [...prevItems, newItem];
+        return [...prevItems, newItem];
       });
     }
   }, [location]);

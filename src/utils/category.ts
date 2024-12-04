@@ -1,74 +1,65 @@
 const categories = [
   {
     id: 1,
-    name: "TV",
+    name: "tv",
     parent_id: null,
   },
   {
     id: 2,
-    name: "Refrigerator",
+    name: "refrigerator",
     parent_id: null,
   },
-  {
-    id: 3,
-    name: "DishWasher",
-    parent_id: null,
-  },
-  {
-    id: 4,
-    name: "Cleaner",
-    parent_id: null,
-  },
+  { id: 3, name: "dishwasher", parent_id: null },
+  { id: 4, name: "cleaner", parent_id: null },
   {
     id: 5,
-    name: "OLED",
+    name: "oled",
     parent_id: 1,
   },
   {
     id: 6,
-    name: "QNED",
+    name: "qned",
     parent_id: 1,
   },
   {
     id: 7,
-    name: "UltraHD",
+    name: "ultra_hd",
     parent_id: 1,
   },
   {
     id: 8,
-    name: "LED",
+    name: "led",
     parent_id: 1,
   },
   {
     id: 9,
-    name: "LifeStyleScreen",
+    name: "lifestyle_screen",
     parent_id: 1,
   },
   {
     id: 10,
-    name: "STEM",
+    name: "stem",
     parent_id: 2,
   },
   {
     id: 11,
-    name: "TOP_RE_BOT_FREE",
+    name: "bottom_mount",
     parent_id: 2,
   },
   {
     id: 12,
-    name: "DoubleDoor",
+    name: "double_door",
     parent_id: 2,
   },
   {
     id: 13,
-    name: "Normal",
+    name: "normal",
     parent_id: 2,
   },
   {
     id: 14,
-    name: "PairInstall",
+    name: "pair_install_kit",
     parent_id: 2,
   },
 ];
-
 export default categories;
