@@ -8,7 +8,7 @@ interface ViewState {
 }
 
 export const useViewStore = create<ViewState>((set) => ({
-  view: "HOME",
+  view: null,
   displayItem: false,
   setDisplayItem: (displayItem: boolean) => set({ displayItem }),
   setView: (view: string) => {

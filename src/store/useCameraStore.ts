@@ -19,7 +19,7 @@ interface CameraState {
 export const useCameraStore = create<CameraState>()((set) => ({
   isMoving: false,
   setIsMoving: (isMoving) => set({ isMoving }),
-  isWarping: "HOME",
+  isWarping: null,
   setIsWarping: (isWarping) => set({ isWarping }),
   currentView: new THREE.Vector3(0, 0, 0),
   setCurrentView: (position: THREE.Vector3) => set({ currentView: position }),

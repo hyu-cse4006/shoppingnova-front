@@ -1,4 +1,4 @@
-import categories from "@/utils/\bcategory";
+import { categories } from "@/constants/category";
 import { useCurrentCategory } from "@/utils/global/useCurrentCategory";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";

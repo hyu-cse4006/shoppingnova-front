@@ -31,27 +31,25 @@ const ThreeCanvas = () => {
     reset,
   } = useCameraStore();
 
-  const { view, setView } = useViewStore();
+  const { view, setView, setDisplayItem, displayItem } = useViewStore();
 
   const [dpr, setDpr] = useState(1);
   const location = useLocation();
 
   useEffect(() => {
     const path = location.pathname.split("/");
+    console.log(path, isWarping);
     if (!isWarping) {
       if (path.length == 1) setView("HOME");
       else {
         setView(path[1]);
+        console.log(path);
+        if (path[2] === "product") setDisplayItem(true);
+        else setDisplayItem(false);
       }
       reset();
     }
-  }, [location, setView, isWarping, reset]);
-
-  const displayProduct = useMemo(() => {
-    const path = location.pathname.split("/");
-    if (path[path.length - 1] === "product") return true;
-    return false;
-  }, [location]);
+  }, [location, isWarping, setView, reset, setDisplayItem]);
 
   return (
     <div
@@ -96,8 +94,8 @@ const ThreeCanvas = () => {
             <BackgroundStars />
             <GalaxyPoints>
               <ErrorBoundary renderFallback={(_) => <></>}>
-                {displayProduct && <Products />}
-                {!isMoving && !displayProduct && (
+                {displayItem && <Products />}
+                {!isMoving && !displayItem && (
                   <CategoryLinks location={location.pathname.split("/")[1]} />
                 )}
               </ErrorBoundary>
