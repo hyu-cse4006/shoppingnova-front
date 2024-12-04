@@ -1,5 +1,6 @@
 import { useCameraStore } from "@/store/useCameraStore";
 import { useViewStore } from "@/store/useViewStore";
+import categories from "@/utils/\bcategory";
 import { Html } from "@react-three/drei";
 import { motion } from "motion/react";
 import { useRef, useState } from "react";
@@ -59,12 +60,13 @@ export default function CategoryLink({ data }: LinkProps) {
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
     console.log(e);
+    const current = location.pathname.split("/");
     const path = "/";
-
+    console.log(current);
     if (groupRef.current !== targetView) {
       setTargetView(groupRef.current);
       setIsWarping(data.name);
-      if (data.name === "TV" || data.name === "Refrigerator") {
+      if (data.name === "tv" || data.name === "refrigerator") {
         return navigate(path + data.name);
       } else {
         return navigate(path + data.name + "/product");
@@ -78,7 +80,7 @@ export default function CategoryLink({ data }: LinkProps) {
     >
       <Html center>
         <S.Container onClick={handleClick}>
-          <S.Title>{data.name}</S.Title>
+          <S.Title>{data.name.toUpperCase()}</S.Title>
           <S.Item />
         </S.Container>
       </Html>
