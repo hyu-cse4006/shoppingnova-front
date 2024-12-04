@@ -53,7 +53,7 @@ export default function CategoryLinks({ location }: CategoryProps) {
         "Content-Type": "application/json",
       },
     };
-    if (view !== "HOME") {
+    if (location) {
       fetchData(config);
     }
   }, [view, location, fetchData]);

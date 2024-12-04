@@ -5,6 +5,7 @@ import Controls from "@/components/three/Controls";
 import BackgroundStars from "@/components/three/galaxy/BackgroundStars";
 import GalaxyPoints from "@/components/three/galaxy/GalaxyPoints";
 import { CAMERA_FAR, CAMERA_POSITION } from "@/constants/camera";
+import Detail from "@/routes/detail";
 import { useCameraStore } from "@/store/useCameraStore";
 import { useViewStore } from "@/store/useViewStore";
 import { PerformanceMonitor } from "@react-three/drei";
@@ -15,6 +16,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { type Group, type Object3DEventMap } from "three";
+import { Html } from "@react-three/drei";
 
 const ThreeCanvas = () => {
   const galaxyRef = useRef<Group<Object3DEventMap>>(null!);
@@ -98,6 +100,12 @@ const ThreeCanvas = () => {
                 {!isMoving && !displayItem && (
                   <CategoryLinks location={location.pathname.split("/")[1]} />
                 )}
+                {displayItem &&
+                  location.pathname.split("/")[3] !== undefined && (
+                    <Html>
+                      <Detail productId={location.pathname.split("/")[3]} />
+                    </Html>
+                  )}
               </ErrorBoundary>
             </GalaxyPoints>
             <Controls />

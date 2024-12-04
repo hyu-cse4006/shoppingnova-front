@@ -9,8 +9,11 @@ const S = {
     height: 80px;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
-
-    background-color: #070614;
+    background: rgba(0, 0, 0, 0.5); /* 반투명 검정 */
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    background: none;
     padding: 10px;
   `,
   Logo: styled.div`
