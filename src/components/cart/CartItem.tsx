@@ -1,13 +1,19 @@
 import React from "react";
 import styled from "styled-components";
-type ItemType = {
+type CartItemType = {
+  id: number;
+  product_id: number;
+  user_id: number;
+  quantity: number;
   name: string;
   price: number;
-  quantity: number;
+  image_url1: string;
+  rating: number;
+  isDummy?: boolean;
 };
 
 type ItemProps = {
-  item: ItemType;
+  item: CartItemType;
 };
 
 const S = {
