@@ -9,15 +9,13 @@ type ModalProps = {
 
 const S = {
   Container: styled.div`
-    width: 400px;
+    min-width: 400px;
     padding: 20px;
     border-radius: 8px;
     background: #2e2e2ec9;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    justify-content: center;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 20px;
     opacity: 0.8;
     position: relative;
   `,
@@ -32,15 +30,14 @@ const S = {
   `,
   // 추후 img 로 변경
   Box: styled.img`
-    width: 100%;
-    height: 100%;
+    width: 40%;
     object-fit: contain;
   `,
   DetailBox: styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    white-space: nowrap;
+    width: 50%;
     & > span {
       font-family: Abel;
       font-size: 14px;
