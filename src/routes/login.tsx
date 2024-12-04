@@ -2,13 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { S } from "./Style/loginstyle";
 import useAxios from "@/utils/hook/useAxios";
 import { useEffect, useState } from "react";
-import { useUserToken } from "@/utils/global/useUserToken";
+import { useUserInfo } from "@/utils/global/useUserInfo";
 import { useForm } from "react-hook-form";
 
 export const Login = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, getValues } = useForm();
-  const { token, setToken } = useUserToken();
+  const { id, setId } = useUserInfo();
   const { response, error, fetchData } = useAxios();
   const onSubmit = () => {
     const data = getValues();
@@ -26,8 +26,9 @@ export const Login = () => {
   useEffect(() => {
     if (response && response.data && !error) {
       console.log(response);
-      setToken(response.data.token);
-      sessionStorage.setItem("token", response.data.token);
+
+      setId(response.data.user.id);
+      sessionStorage.setItem("id", response.data.user.id);
       navigate("/");
     }
   }, [response]);
