@@ -2,6 +2,7 @@ import { useViewStore } from "@/store/useViewStore";
 import categories from "@/utils/\bcategory";
 import { useCurrentCategory } from "@/utils/global/useCurrentCategory";
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 const S = {
   Container: styled.div`
@@ -15,6 +16,7 @@ const S = {
     align-items: center;
     gap: 10px;
     position: relative;
+    width: 40px;
   `,
   Dot: styled.div`
     width: 8px;
@@ -37,7 +39,7 @@ const S = {
     width: 100%;
     position: absolute;
     right: 50%;
-    top: 12px;
+    top: 14px;
     border-top: 0.5px dashed #ccc;
     z-index: 0;
   `,
@@ -45,26 +47,51 @@ const S = {
     width: 100%;
     position: absolute;
     left: 50%;
-    top: 12px;
+    top: 14px;
     border-top: 0.5px dashed #ccc;
     z-index: 0;
   `,
 };
 const CategoryView = () => {
-  const [items, setItems] = useState<string[]>([]);
+  const [items, setItems] = useState<string[]>(["HOME"]);
   const { view, setView } = useViewStore();
+  const location = useLocation();
   useEffect(() => {
-    setItems((item) => [...item, view]);
-  }, [view]);
+    // 빈 문자열 제거
+    const path = location.pathname.split("/").filter(Boolean);
+    if (path.length === 0) {
+      setItems(["HOME"]);
+      return;
+    }
+    const currentCategoryName =
+      path[path.length - 1].toLowerCase() === "product" && path.length > 1
+        ? path[path.length - 2]
+        : path[path.length - 1];
+    const currentItem = categories.find((item) => {
+      return item.name.toLowerCase() === currentCategoryName.toLowerCase();
+    });
+
+    console.log(path);
+    if (currentItem) {
+      setItems((prevItems) => {
+        const newItem = currentItem.name.replace(/ /g, "_").replace("&", "");
+        return prevItems.includes(newItem)
+          ? prevItems
+          : [...prevItems, newItem];
+      });
+    }
+  }, [location]);
   return (
     <S.Container>
       {items.map((item, idx) => (
-        <S.Item key={idx}>
-          <div>{idx !== 0 && <S.LeftLine />}</div>
-          <S.Dot />
-          <S.Text>{item}</S.Text>
-          <div>{idx < items.length - 1 && <S.RightLine />}</div>
-        </S.Item>
+        <>
+          <S.Item key={idx}>
+            <div>{idx !== 0 && <S.LeftLine />}</div>
+            <S.Dot />
+            <S.Text>{item}</S.Text>
+            <div>{idx < items.length - 1 && <S.RightLine />}</div>
+          </S.Item>
+        </>
       ))}
     </S.Container>
   );

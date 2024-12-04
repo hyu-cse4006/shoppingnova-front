@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import CategoryView from "./CategoryView";
-import { useUserToken } from "@/utils/global/useUserToken";
+import { useUserInfo } from "@/utils/global/useUserInfo";
 import { useLocation, useNavigate } from "react-router-dom";
 const S = {
   Container: styled.div`
@@ -53,7 +53,7 @@ const S = {
   `,
 };
 const Header = () => {
-  const { token, setToken } = useUserToken();
+  const { id } = useUserInfo();
   const navigate = useNavigate();
   const location = useLocation();
   return (
@@ -69,7 +69,7 @@ const Header = () => {
         <span>SHOPPING</span>
         <span>NOVA</span>
       </S.Logo>
-      {token === "" ? (
+      {id === null || id === undefined ? (
         <S.SigninBtn onClick={() => navigate("/login")}>
           <span>Sign in</span>
         </S.SigninBtn>

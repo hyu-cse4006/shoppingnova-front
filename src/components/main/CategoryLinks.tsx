@@ -56,7 +56,7 @@ export default function CategoryLinks({ location }: CategoryProps) {
     if (view !== "HOME") {
       fetchData(config);
     }
-  }, [view, categories]);
+  }, [view]);
   useEffect(() => {
     if (response && response.data && !error) {
       const n = response.data.length;
