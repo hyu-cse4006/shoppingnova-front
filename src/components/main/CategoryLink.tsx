@@ -1,7 +1,6 @@
 import { useCameraStore } from "@/store/useCameraStore";
-import { useCurrentCategory } from "@/utils/global/useCurrentCategory";
+import { useViewStore } from "@/store/useViewStore";
 import { Html } from "@react-three/drei";
-import { ThreeEvent } from "@react-three/fiber";
 import { motion } from "motion/react";
 import { useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -19,7 +18,7 @@ export interface CategoryType {
 const S = {
   Container: styled(motion.div)`
     width: fit-content;
-    gap: 8px;
+    gap: 12px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -29,9 +28,8 @@ const S = {
   Title: styled.span`
     font-family: Poppins;
     font-size: 32px;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 28px;
-    letter-spacing: 0.04em;
     text-align: center;
     color: white;
     user-select: none;

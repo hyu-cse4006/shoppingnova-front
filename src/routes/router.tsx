@@ -5,8 +5,7 @@ import { createBrowserRouter } from "react-router-dom";
 import MainPage from "./mainpage";
 import Cart from "./cart";
 import Detail from "./detail";
-import Products from "./products";
-
+import { element } from "three/webgpu";
 const router = createBrowserRouter([
   {
     path: "",
@@ -19,6 +18,7 @@ const router = createBrowserRouter([
           {
             path: ":categoryName",
             element: <></>,
+            children: [{ path: "product", element: <></> }],
           },
         ],
       },
@@ -33,10 +33,6 @@ const router = createBrowserRouter([
       {
         path: "cart",
         element: <Cart />,
-      },
-      {
-        path: ":categoryName/product",
-        element: <Products />,
       },
       {
         path: "detail",

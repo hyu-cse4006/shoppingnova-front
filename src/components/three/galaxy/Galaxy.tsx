@@ -1,5 +1,4 @@
 import GalaxyLayer from "@/components/three/galaxy/GalaxyLayer";
-import { Suspense } from "react";
 import particle from "@/assets/particle-example.png";
 
 export default function Galaxy() {

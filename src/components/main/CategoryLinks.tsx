@@ -22,22 +22,22 @@ export default function CategoryLinks({ location }: CategoryProps) {
   const { view } = useViewStore();
   const [categories, setCategories] = useState<Category[]>([
     {
-      position: { x: 5000, y: -3000, z: 0 },
+      position: { x: 4000, y: 0, z: 2500 },
       name: "TV",
       id: 1,
     },
     {
-      position: { x: 8000, y: 2000, z: 4000 },
+      position: { x: 2000, y: 0, z: -7000 },
       name: "Refrigerator",
       id: 2,
     },
     {
-      position: { x: -5000, y: 4000, z: 0 },
+      position: { x: -6000, y: 0, z: -4000 },
       name: "Dishwasher",
       id: 3,
     },
     {
-      position: { x: -8000, y: 2000, z: 4000 },
+      position: { x: -3000, y: 0, z: 6000 },
       name: "Cleaner",
       id: 4,
     },

@@ -1,17 +1,18 @@
 import CategoryLinks from "@/components/main/CategoryLinks";
+import Products from "@/components/product/Products";
 import CameraLight from "@/components/three/CameraLight";
 import Controls from "@/components/three/Controls";
 import BackgroundStars from "@/components/three/galaxy/BackgroundStars";
 import GalaxyPoints from "@/components/three/galaxy/GalaxyPoints";
 import { CAMERA_FAR, CAMERA_POSITION } from "@/constants/camera";
-import Products from "@/routes/products";
 import { useCameraStore } from "@/store/useCameraStore";
 import { useViewStore } from "@/store/useViewStore";
 import { PerformanceMonitor } from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
+import { ErrorBoundary } from "@toss/error-boundary";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { type Group, type Object3DEventMap } from "three";
 
@@ -22,8 +23,13 @@ const ThreeCanvas = () => {
     far: CAMERA_FAR,
   };
 
-  const { cameraToCurrentView, setCameraToCurrentView, isMoving, isWarping } =
-    useCameraStore();
+  const {
+    cameraToCurrentView,
+    setCameraToCurrentView,
+    isMoving,
+    isWarping,
+    reset,
+  } = useCameraStore();
 
   const { view, setView } = useViewStore();
 
@@ -37,8 +43,15 @@ const ThreeCanvas = () => {
       else {
         setView(path[1]);
       }
+      reset();
     }
-  }, [location, setView, isWarping]);
+  }, [location, setView, isWarping, reset]);
+
+  const displayProduct = useMemo(() => {
+    const path = location.pathname.split("/");
+    if (path[path.length - 1] === "product") return true;
+    return false;
+  }, [location]);
 
   return (
     <div
@@ -82,10 +95,12 @@ const ThreeCanvas = () => {
 
             <BackgroundStars />
             <GalaxyPoints>
-              {location.pathname.split("/")[1] === "product" && <Products />}
-              {!isMoving && location.pathname.split("/")[1] !== "product" && (
-                <CategoryLinks location={location.pathname.split("/")[1]} />
-              )}
+              <ErrorBoundary renderFallback={(_) => <></>}>
+                {displayProduct && <Products />}
+                {!isMoving && !displayProduct && (
+                  <CategoryLinks location={location.pathname.split("/")[1]} />
+                )}
+              </ErrorBoundary>
             </GalaxyPoints>
             <Controls />
             <CameraLight />

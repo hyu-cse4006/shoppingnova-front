@@ -17,12 +17,7 @@ interface PropsType {
   isCustom: boolean;
 }
 
-export default function GalaxyInstance({
-  count,
-  size,
-  color,
-  isCustom,
-}: PropsType) {
+export default function GalaxyInstance({ count, size, color }: PropsType) {
   const instancedMeshRef = useRef<THREE.InstancedMesh>(null!);
   const geometry = new THREE.SphereGeometry(size * 5, 16, 8);
   const material = new THREE.MeshStandardMaterial({

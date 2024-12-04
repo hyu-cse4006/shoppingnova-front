@@ -1,7 +1,10 @@
+import Product from "@/components/product/Product";
 import categories from "@/utils/\bcategory";
 import useAxios from "@/utils/hook/useAxios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+
+type ProductType = Record<string, string | number>;
 
 const Products = () => {
   const mapCateID = (name: string | undefined) => {
@@ -12,24 +15,21 @@ const Products = () => {
   };
   const { categoryName } = useParams();
   const { response, error, fetchData } = useAxios();
-  const [productList, setProductList] = useState<
-    Record<string, string | number>[]
-  >([]);
+  const [productList, setProductList] = useState<ProductType[]>([]);
   useEffect(() => {
-    const params = categoryName
-      ?.toLowerCase()
-      .replace(/ /g, "_")
-      .replace("&", "");
-    console.log(params);
+    const category = mapCateID(
+      categoryName?.toLowerCase().replace(/ /g, "_").replace("&", "")
+    );
+    if (!category) return;
     const config = {
       method: "GET",
-      url: `http://3.35.58.101:8080/api/products/${mapCateID(params).id}`,
+      url: `http://3.35.58.101:8080/api/products/${category.id}`,
       headers: {
         "Content-Type": "application/json",
       },
     };
     fetchData(config);
-  }, [categoryName]);
+  }, [categoryName, fetchData]);
   useEffect(() => {
     if (response && response.data) {
       setProductList(response.data);
@@ -37,11 +37,9 @@ const Products = () => {
   }, [response]);
   return (
     <div>
-      {productList.length > 0 ? (
-        productList.map((item, idx) => <div key={idx}>{item.name}</div>)
-      ) : (
-        <div>No products found</div>
-      )}
+      {productList.map((_, idx) => (
+        <Product key={idx} />
+      ))}
     </div>
   );
 };
