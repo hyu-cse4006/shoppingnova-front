@@ -11,7 +11,7 @@ import { PerformanceMonitor } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import { AnimatePresence, motion } from "motion/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { type Group, type Object3DEventMap } from "three";
 
@@ -22,15 +22,24 @@ const ThreeCanvas = () => {
     far: CAMERA_FAR,
   };
 
-  const { cameraToCurrentView, setCameraToCurrentView, isMoving } =
+  const { cameraToCurrentView, setCameraToCurrentView, isMoving, isWarping } =
     useCameraStore();
 
-  const { view, displayItem } = useViewStore();
+  const { view, setView } = useViewStore();
 
   const [dpr, setDpr] = useState(1);
   const location = useLocation();
-  console.log(location);
-  console.log(location.pathname.split("/"));
+
+  useEffect(() => {
+    const path = location.pathname.split("/");
+    if (!isWarping) {
+      if (path.length == 1) setView("HOME");
+      else {
+        setView(path[1]);
+      }
+    }
+  }, [location, setView, isWarping]);
+
   return (
     <div
       className="h-screen w-screen"
@@ -74,11 +83,9 @@ const ThreeCanvas = () => {
             <BackgroundStars />
             <GalaxyPoints>
               {location.pathname.split("/")[1] === "product" && <Products />}
-              {!isMoving &&
-                !displayItem &&
-                location.pathname.split("/")[1] !== "product" && (
-                  <CategoryLinks location={location.pathname.split("/")[1]} />
-                )}
+              {!isMoving && location.pathname.split("/")[1] !== "product" && (
+                <CategoryLinks location={location.pathname.split("/")[1]} />
+              )}
             </GalaxyPoints>
             <Controls />
             <CameraLight />

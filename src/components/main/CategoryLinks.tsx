@@ -1,4 +1,5 @@
 import CategoryLink from "@/components/main/CategoryLink";
+import { useViewStore } from "@/store/useViewStore";
 import useAxios from "@/utils/hook/useAxios";
 import { useEffect, useState } from "react";
 
@@ -18,6 +19,7 @@ type Category = {
 };
 
 export default function CategoryLinks({ location }: CategoryProps) {
+  const { view } = useViewStore();
   const [categories, setCategories] = useState<Category[]>([
     {
       position: { x: 5000, y: -3000, z: 0 },
@@ -41,7 +43,7 @@ export default function CategoryLinks({ location }: CategoryProps) {
     },
   ]);
   const { response, error, fetchData } = useAxios();
-
+  console.log(view);
   useEffect(() => {
     const id = categories.find((category) => category.name === location)?.id;
     const config = {
@@ -51,20 +53,28 @@ export default function CategoryLinks({ location }: CategoryProps) {
         "Content-Type": "application/json",
       },
     };
-    fetchData(config);
-  }, []);
+    if (view !== "HOME") {
+      fetchData(config);
+    }
+  }, [view, categories]);
   useEffect(() => {
     if (response && response.data && !error) {
-      console.log(response);
-
-      const newCategories = response.data.map((category) => ({
-        ...category,
-        position: { x: 1000, y: 1000, z: 1000 },
-      }));
+      const n = response.data.length;
+      const newCategories = (
+        response.data as Array<Omit<Category, "position">>
+      ).map((category, idx) => {
+        const r = 8000;
+        const x = r * Math.cos((2 * Math.PI * idx) / n);
+        const z = r * Math.sin((2 * Math.PI * idx) / n);
+        return {
+          ...category,
+          position: { x, y: 0, z },
+        };
+      });
 
       setCategories(newCategories);
     }
-  }, [response]);
+  }, [response, error]);
   return (
     <group>
       {categories.map((category) => (
