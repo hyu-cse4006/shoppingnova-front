@@ -12,6 +12,15 @@ const S = {
     /* 추후 헤더 높이 빼기 */
 
     opacity: 0.9;
+    position: relative;
+  `,
+  CartBtn: styled.img`
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
   `,
   ContentBox: styled.div`
     width: 100%;
@@ -125,8 +134,10 @@ const S = {
   `,
 };
 const Detail = () => {
+  const onCartClick = () => {};
   return (
     <S.Container>
+      <S.CartBtn onClick={onCartClick} />
       <S.ContentBox>
         <S.ImgBox>
           <S.MainImg />

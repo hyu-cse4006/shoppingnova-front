@@ -64,10 +64,10 @@ export default function CategoryLink({ data }: LinkProps) {
     if (groupRef.current !== targetView) {
       setTargetView(groupRef.current);
       setIsWarping(data.name);
-      if (data.id === 3 || data.id === 4) {
-        return navigate(path + data.name + "/product");
-      } else {
+      if (data.name === "TV" || data.name === "Refrigerator") {
         return navigate(path + data.name);
+      } else {
+        return navigate(path + data.name + "/product");
       }
     }
   };
