@@ -27,4 +27,9 @@ body {
 *:before,
 *:after {
   font-family: "Poppins", -apple-system, sans-serif;
+  z-index: 0;
+}
+
+canvas {
+  z-index: 30;
 }

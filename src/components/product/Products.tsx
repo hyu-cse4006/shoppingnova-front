@@ -6,19 +6,32 @@ import { categories } from "@/constants/category";
 import useAxios from "@/utils/hook/useAxios";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useThree } from "@react-three/fiber";
+import { Vector3 } from "three";
+
+function getSpherePositionsWithSep(
+  size: number,
+  existingPositions: Array<Vector3> = []
+) {
+  let position: Vector3;
+  let isOverlapping;
+
+  do {
+    // 무작위 좌표 생성
+    position = getSpherePositions(1, 1.3);
+
+    // 겹치는지 확인
+    isOverlapping = existingPositions.some((existing) => {
+      const dx = existing.x - position.x;
+      const dy = existing.y - position.y;
+      const dz = existing.z - position.z;
+      const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+      return distance < size; // 최소 거리 조건
+    });
+  } while (isOverlapping);
+  return position;
+}
 
 const Products = () => {
-  const { raycaster, camera } = useThree();
-
-  useEffect(() => {
-    // 카메라는 레이어 1을 렌더링 대상으로 유지
-    camera.layers.enable(1);
-
-    // Raycaster만 레이어 1을 감지하지 않도록 설정
-    raycaster.layers.disable(1);
-  }, [raycaster, camera]);
-
   const mapCateID = (name: string | undefined) => {
     return categories.find(
       (category) =>
@@ -50,20 +63,23 @@ const Products = () => {
     }
   }, [response]);
 
-  const productMap = useMemo(
-    () =>
-      productList.map((product, idx) => (
+  const productMap = useMemo(() => {
+    const positions: Vector3[] = [];
+
+    return productList.map((product, idx) => {
+      const position = getSpherePositionsWithSep(600, positions);
+      positions.push(position);
+
+      return (
         <Product
-          meshProps={{
-            position: getSpherePositions(1, 1.3),
-          }}
+          meshProps={{ position }}
           product={product}
           color={starTypes.color[idx % starTypes.color.length]}
           key={idx}
         />
-      )),
-    [productList]
-  );
+      );
+    });
+  }, [productList]);
   return <>{productMap}</>;
 };
 

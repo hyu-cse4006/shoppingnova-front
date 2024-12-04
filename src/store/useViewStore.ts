@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 interface ViewState {
-  view: string;
+  view: string | null;
   displayItem: boolean;
   setDisplayItem: (displayItem: boolean) => void;
   setView: (view: string) => void;
