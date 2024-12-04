@@ -3,5 +3,7 @@ export type ProductType = {
   id: number;
   price: number;
   rating: number;
-  image_url: string;
+  rate_num: number;
+  image_url1?: string;
+  image_url?: string;
 };

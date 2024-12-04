@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Mesh } from "three";
+import ItemDetailModal from "../modal/ItemDetailModal";
 
 interface ProductProps {
   meshProps: MeshProps;
@@ -72,8 +73,9 @@ export default function Product({ meshProps, color, product }: ProductProps) {
       {...meshProps}
     >
       {isHovered && (
-        <Html style={{ pointerEvents: "none" }}>
-          <Label>{product.name}</Label>
+        <Html>
+          <ItemDetailModal product={product} />
+          {/* <Label>{product.name}</Label> */}
         </Html>
       )}
     </Star>

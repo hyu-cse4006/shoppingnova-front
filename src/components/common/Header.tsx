@@ -7,13 +7,17 @@ const S = {
   Container: styled.div`
     width: 100%;
     height: 80px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #070614;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    background: rgba(0, 0, 0, 0.5); /* 반투명 검정 */
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    background: none;
     padding: 10px;
   `,
   Logo: styled.div`
+    justify-self: center;
     cursor: pointer;
     & > span:nth-child(1) {
       font-family: Abel;
@@ -35,6 +39,7 @@ const S = {
     }
   `,
   SigninBtn: styled.div`
+    justify-self: end;
     padding: 8px 12px 8px 12px;
     border-radius: 12px;
     border: 1px solid #ffffff;
