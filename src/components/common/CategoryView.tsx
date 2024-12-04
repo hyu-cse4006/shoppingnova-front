@@ -1,3 +1,4 @@
+import { useViewStore } from "@/store/useViewStore";
 import categories from "@/utils/\bcategory";
 import { useCurrentCategory } from "@/utils/global/useCurrentCategory";
 import React, { useEffect, useState } from "react";
@@ -50,7 +51,11 @@ const S = {
   `,
 };
 const CategoryView = () => {
-  const [items, setItems] = useState<string[]>(["home"]);
+  const [items, setItems] = useState<string[]>([]);
+  const { view, setView } = useViewStore();
+  useEffect(() => {
+    setItems((item) => [...item, view]);
+  }, [view]);
   return (
     <S.Container>
       {items.map((item, idx) => (
