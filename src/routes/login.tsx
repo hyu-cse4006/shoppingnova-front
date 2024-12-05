@@ -12,7 +12,6 @@ export const Login = () => {
   const { response, error, fetchData } = useAxios();
   const onSubmit = () => {
     const data = getValues();
-    console.log(data);
     const config = {
       method: "POST",
       url: "http://3.35.58.101:8080/api/users/login",
@@ -25,8 +24,6 @@ export const Login = () => {
   };
   useEffect(() => {
     if (response && response.data && !error) {
-      console.log(response);
-
       setId(response.data.user.id);
       sessionStorage.setItem("id", response.data.user.id);
       navigate("/");

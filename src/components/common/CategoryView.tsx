@@ -66,12 +66,11 @@ const CategoryView = () => {
       path[path.length - 1].toLowerCase() === "product" && path.length > 1
         ? path[path.length - 2]
         : path[path.length - 1];
-    console.log(currentCategoryName);
+
     const currentItem = categories.find((item) => {
       return item.name === currentCategoryName;
     });
 
-    console.log(currentItem);
     if (currentItem) {
       setItems((prevItems) => {
         let parentItemName;

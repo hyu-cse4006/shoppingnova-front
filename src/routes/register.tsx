@@ -15,7 +15,6 @@ export const Register = () => {
       return;
     }
     const data = getValues();
-    console.log(data);
     const config = {
       method: "POST",
       url: "http://3.35.58.101:8080/api/users/form",

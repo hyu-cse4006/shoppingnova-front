@@ -9,10 +9,7 @@ const useAxios = () => {
     () => async (config: AxiosRequestConfig) => {
       setError(null);
       try {
-        console.log(config);
-
         const response = await axios(config);
-        console.log(response);
         setResponse(response);
       } catch (error) {
         setError(error as AxiosError);

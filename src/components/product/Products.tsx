@@ -44,7 +44,6 @@ const Products = () => {
     const category = mapCateID(
       categoryName?.toLowerCase().replace(/ /g, "_").replace("&", "")
     );
-    console.log(category);
     if (!category) return;
     const config = {
       method: "GET",

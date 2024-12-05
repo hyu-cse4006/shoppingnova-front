@@ -70,7 +70,7 @@ const Header = () => {
   const { id } = useUserInfo();
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(id);
+
   return (
     <S.Container>
       {location.pathname !== "/login" && location.pathname !== "/register" ? (
