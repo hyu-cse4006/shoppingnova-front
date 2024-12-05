@@ -1,17 +1,20 @@
 import { create } from "zustand";
 
+type ViewType = "Category" | "Products" | "Detail";
 interface ViewState {
   view: string | null;
-  displayItem: boolean;
-  setDisplayItem: (displayItem: boolean) => void;
+  viewType: ViewType;
+  setViewType: (viewType: ViewType) => void;
   setView: (view: string) => void;
 }
 
 export const useViewStore = create<ViewState>((set) => ({
   view: null,
+  viewType: "Category",
   displayItem: false,
-  setDisplayItem: (displayItem: boolean) => set({ displayItem }),
+  setViewType: (viewType: ViewType) => set({ viewType }),
   setView: (view: string) => {
-    set({ view });
+    if (view == "HOME") set({ view, viewType: "Category" });
+    else set({ view });
   },
 }));

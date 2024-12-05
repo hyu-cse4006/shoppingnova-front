@@ -1,6 +1,5 @@
 import { useCameraStore } from "@/store/useCameraStore";
 import { useViewStore } from "@/store/useViewStore";
-import categories from "@/utils/\bcategory";
 import { Html } from "@react-three/drei";
 import { motion } from "motion/react";
 import { useRef, useState } from "react";

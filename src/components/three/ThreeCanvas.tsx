@@ -34,25 +34,25 @@ const ThreeCanvas = () => {
     reset,
   } = useCameraStore();
 
-  const { view, setView, setDisplayItem, displayItem } = useViewStore();
+  const { view, setView, viewType, setViewType } = useViewStore();
 
   const [dpr, setDpr] = useState(1);
   const location = useLocation();
 
   useEffect(() => {
     const path = location.pathname.split("/");
-    console.log(path, isWarping);
     if (!isWarping) {
-      if (path.length == 1) setView("HOME");
-      else {
+      if (path.length <= 2) {
+        setViewType("Category");
+        setView(path.length < 2 ? "HOME" : path[1]);
+      } else {
         setView(path[1]);
-        console.log(path);
-        if (path[2] === "product") setDisplayItem(true);
-        else setDisplayItem(false);
+        if (path.length === 4) setViewType("Detail");
+        if (path.length === 3) setViewType("Products");
       }
       reset();
     }
-  }, [location, isWarping, setView, reset, setDisplayItem]);
+  }, [location, isWarping, setView, reset, setViewType]);
 
   return (
     <div
@@ -97,22 +97,9 @@ const ThreeCanvas = () => {
             <BackgroundStars />
             <GalaxyPoints>
               <ErrorBoundary renderFallback={(_) => <></>}>
-                {displayItem && <Products />}
-                {!isMoving &&
-                  !displayItem &&
-                  location.pathname.split("/")[1] !== "cart" && (
-                    <CategoryLinks location={location.pathname.split("/")[1]} />
-                  )}
-                {displayItem &&
-                  location.pathname.split("/")[3] !== undefined && (
-                    <Html>
-                      <Detail productId={location.pathname.split("/")[3]} />
-                    </Html>
-                  )}
-                {location.pathname.split("/")[1] === "cart" && (
-                  <Html>
-                    <Cart />
-                  </Html>
+                {viewType !== "Category" && <Products />}
+                {!isMoving && viewType === "Category" && (
+                  <CategoryLinks location={location.pathname.split("/")[1]} />
                 )}
               </ErrorBoundary>
             </GalaxyPoints>

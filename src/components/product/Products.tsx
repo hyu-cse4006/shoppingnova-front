@@ -1,5 +1,5 @@
 import Product from "@/components/product/Product";
-import { ProductType } from "@/components/product/type";
+import { SimpleProduct } from "@/components/product/type";
 import { getSpherePositions } from "@/components/three/galaxy/positions";
 import { starTypes } from "@/constants/galaxy";
 import { categories } from "@/constants/category";
@@ -16,16 +16,14 @@ function getSpherePositionsWithSep(
   let isOverlapping;
 
   do {
-    // 무작위 좌표 생성
     position = getSpherePositions(1, 1.3);
 
-    // 겹치는지 확인
     isOverlapping = existingPositions.some((existing) => {
       const dx = existing.x - position.x;
       const dy = existing.y - position.y;
       const dz = existing.z - position.z;
       const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-      return distance < size; // 최소 거리 조건
+      return distance < size;
     });
   } while (isOverlapping);
   return position;
@@ -41,7 +39,7 @@ const Products = () => {
   const { categoryName } = useParams();
 
   const { response, error, fetchData } = useAxios();
-  const [productList, setProductList] = useState<ProductType[]>([]);
+  const [productList, setProductList] = useState<SimpleProduct[]>([]);
   useEffect(() => {
     const category = mapCateID(
       categoryName?.toLowerCase().replace(/ /g, "_").replace("&", "")

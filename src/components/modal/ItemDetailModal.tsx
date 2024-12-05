@@ -1,10 +1,10 @@
 import { style } from "motion/react-client";
 import React from "react";
 import styled from "styled-components";
-import { ProductType } from "../product/type";
+import { SimpleProduct } from "../product/type";
 import image from "../../assets/shopping-cart.png";
 type ModalProps = {
-  product: ProductType;
+  product: SimpleProduct;
 };
 
 const S = {

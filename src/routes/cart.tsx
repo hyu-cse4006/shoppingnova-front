@@ -16,9 +16,12 @@ type CartItemType = {
 };
 const S = {
   Container: styled.div`
+    position: absolute;
+    z-index: 99;
     width: 60vw;
+    margin: 80px 20vw;
+    max-height: calc(80vh - 80px);
     background-color: transparent;
-    max-height: 80%;
     box-sizing: border-box;
     border-radius: 0 8px 8px 0;
     overflow-y: auto;
@@ -30,6 +33,7 @@ const S = {
   `,
   CartWrapper: styled.div`
     display: flex;
+    margin: 0 auto;
     flex-direction: column;
     gap: 50px;
     align-items: center;
@@ -63,8 +67,8 @@ const Cart = () => {
   // ];
 
   useEffect(() => {
-    if (id === 0 && sessionStorage.getItem("id") !== null)
-      setId(+sessionStorage.getItem("id"));
+    const _id = sessionStorage.getItem("id");
+    if (id === 0 && _id !== null) setId(+_id);
   }, []);
   // 장바구니 내 상품 목록 조회
   useEffect(() => {
