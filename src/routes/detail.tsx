@@ -234,6 +234,12 @@ const Detail = ({ productId }: DetailProps) => {
         <S.ImgBox>
           <S.MainImg src={mainImage || ""} />
           <S.ImgList>
+            {productInfo?.image_url1 && (
+              <img
+                src={productInfo.image_url1}
+                onClick={() => handleImageClick(productInfo.image_url1)}
+              />
+            )}
             {productInfo?.image_url2 && (
               <img
                 src={productInfo.image_url2}
