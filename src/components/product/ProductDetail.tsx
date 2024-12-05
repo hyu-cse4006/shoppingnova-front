@@ -10,8 +10,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useCameraStore } from "@/store/useCameraStore";
 import { useViewStore } from "@/store/useViewStore";
 import { Vector3 } from "three";
-import { useThree } from "@react-three/fiber";
-import { CAMERA_POSITION } from "@/constants/camera";
 
 const sliderVariants = {
   incoming: (direction: number) => ({
@@ -184,7 +182,6 @@ export default function ProductDetail({
   product,
 }: ProductDetailProps) {
   const { response: cartResponse, fetchData: fetchCartData } = useAxios();
-  const { camera } = useThree();
   const [[page, direction], setPage] = useState([0, 0]);
   const imageIndex = wrap(0, product.images.length, page);
   const paginate = (newDirection: number) => {
@@ -251,7 +248,7 @@ export default function ProductDetail({
               dragConstraints={{ left: 0, right: 0 }}
               transition={{ ease: "easeOut", duration: 0.5 }}
               dragElastic={1}
-              onDragEnd={(_, { offset, velocity }) => {
+              onDragEnd={(e, { offset, velocity }) => {
                 const swipe = swipePower(offset.x, velocity.x);
 
                 if (swipe < -swipeConfidenceThreshold) {
