@@ -40,6 +40,7 @@ const S = {
     }
   `,
   SigninBtn: styled.div`
+    height: 40px;
     justify-self: end;
     padding: 8px 12px 8px 12px;
     border-radius: 12px;
