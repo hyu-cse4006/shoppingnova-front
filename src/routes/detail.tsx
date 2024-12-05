@@ -1,6 +1,8 @@
 import useAxios from "@/utils/hook/useAxios";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
+import image from "../assets/shopping-cart.png";
+import { useUserInfo } from "@/utils/global/useUserInfo";
 
 type DetailProps = {
   productId: string;
@@ -36,30 +38,32 @@ type ProductDetail = {
 
 const S = {
   Container: styled.div`
-    width: 100%;
+    width: 60vw;
+
     box-sizing: border-box;
-    /* 추후 헤더 높이 빼기 */
-    position: fixed;
+
     top: 50%;
-    left: 50%;
+
     transform: translate(-50%, -50%);
     z-index: 10;
     position: relative;
   `,
-  CartBtn: styled.img`
+  CartBtn: styled.div`
     position: absolute;
-    right: 20px;
-    top: 20px;
+    right: 16px;
+    top: 8px;
+    & > img {
+      width: 36px;
+      height: 36px;
+    }
+
     cursor: pointer;
-    width: 40px;
-    height: 40px;
   `,
   ContentBox: styled.div`
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    gap: 40px;
     background-color: #414141;
     padding: 20px;
     box-sizing: border-box;
@@ -86,9 +90,11 @@ const S = {
     gap: 16px;
     width: 100%;
 
-    & > div {
-      width: 22%;
-      height: 100px;
+    & > img {
+      cursor: pointer;
+      width: 25%;
+      height: 25%;
+
       background-color: white;
     }
   `,
@@ -167,8 +173,11 @@ const S = {
 };
 const Detail = ({ productId }: DetailProps) => {
   console.log(productId);
-  const { response, error, fetchData } = useAxios();
+  const { response: productResponse, fetchData: fetchProductData } = useAxios();
+  const { response: cartResponse, fetchData: fetchCartData } = useAxios();
   const [productInfo, setProductInfo] = useState<ProductDetail | null>(null);
+  const [mainImage, setMainImage] = useState<string>("");
+  const { id, setId } = useUserInfo();
   useEffect(() => {
     const config = {
       method: "GET",
@@ -177,29 +186,82 @@ const Detail = ({ productId }: DetailProps) => {
         "Content-Type": "application/json",
       },
     };
-    fetchData(config);
-  }, [fetchData]);
+    fetchProductData(config);
+  }, [fetchProductData]);
   useEffect(() => {
-    if (response && response.data) {
-      setProductInfo(response.data);
+    if (productResponse && productResponse.data) {
+      setProductInfo(productResponse.data);
     }
-  }, [response]);
-  const onCartClick = () => {};
+  }, [productResponse]);
+
+  // 장바구니 담기
+  const onCartClick = useCallback(() => {
+    const config = {
+      method: "POST",
+      url: `http://3.35.58.101:8080/api/cart/${id}/add_cart`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      params: {
+        product_id: +productId,
+      },
+    };
+    fetchCartData(config);
+  }, [fetchCartData]);
+
+  const handleImageClick = (imageUrl: string | null) => {
+    if (imageUrl) setMainImage(imageUrl);
+  };
+
+  // 메인 이미지 설정
+  useEffect(() => {
+    if (productInfo?.image_url1) {
+      setMainImage(productInfo.image_url1);
+    }
+  }, [productInfo]);
+
+  useEffect(() => {
+    if (cartResponse && cartResponse.data)
+      alert("The product has been added to cart successfully!");
+  }, [cartResponse]);
   return (
     <S.Container>
-      <S.CartBtn onClick={onCartClick} />
+      <S.CartBtn onClick={onCartClick}>
+        <img src={image} />
+      </S.CartBtn>
       <S.ContentBox>
         <S.ImgBox>
-          <S.MainImg src={productInfo?.image_url1 || ""} />
+          <S.MainImg src={mainImage || ""} />
           <S.ImgList>
-            {productInfo?.image_url2 && <img src={productInfo.image_url2} />}
-            {productInfo?.image_url3 && <img src={productInfo.image_url3} />}
-            {productInfo?.image_url4 && <img src={productInfo.image_url4} />}
+            {productInfo?.image_url1 && (
+              <img
+                src={productInfo.image_url1}
+                onClick={() => handleImageClick(productInfo.image_url1)}
+              />
+            )}
+            {productInfo?.image_url2 && (
+              <img
+                src={productInfo.image_url2}
+                onClick={() => handleImageClick(productInfo.image_url2)}
+              />
+            )}
+            {productInfo?.image_url3 && (
+              <img
+                src={productInfo.image_url3}
+                onClick={() => handleImageClick(productInfo.image_url3)}
+              />
+            )}
+            {productInfo?.image_url4 && (
+              <img
+                src={productInfo.image_url4}
+                onClick={() => handleImageClick(productInfo.image_url4)}
+              />
+            )}
           </S.ImgList>
         </S.ImgBox>
         <S.InfoBox>
           <S.MainInfo>
-            <S.Name>Name</S.Name>
+            <S.Name>{productInfo?.name}</S.Name>
             <S.Info>
               <div>
                 <span>Price: {productInfo?.price}</span>

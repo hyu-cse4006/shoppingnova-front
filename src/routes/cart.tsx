@@ -1,17 +1,28 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import CartItem from "@/components/cart/CartItem";
-
+import useAxios from "@/utils/hook/useAxios";
+import { useUserInfo } from "@/utils/global/useUserInfo";
+type CartItemType = {
+  id: number;
+  product_id: number;
+  user_id: number;
+  quantity: number;
+  name: string;
+  price: number;
+  image_url1: string;
+  rating: number;
+  isDummy?: boolean;
+};
 const S = {
   Container: styled.div`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 60vw;
+    background-color: transparent;
     max-height: 80%;
     box-sizing: border-box;
     border-radius: 0 8px 8px 0;
     overflow-y: auto;
+    background: none;
     &::-webkit-scrollbar {
       width: 0;
       height: 0;
@@ -34,21 +45,61 @@ const S = {
 };
 
 const Cart = () => {
+  const { response, fetchData } = useAxios();
   const [activeItemIdx, setActiveItemIdx] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [items, setItems] = useState<CartItemType[]>();
+  const { id, setId } = useUserInfo();
+  // const items = [
+  //   { name: "", price: 0, quantity: 0, isDummy: true },
+  //   { name: "abds", price: 10000000, quantity: 1 },
+  //   { name: "vzcx", price: 20300000, quantity: 3 },
+  //   { name: "gzc", price: 30800000, quantity: 4 },
+  //   { name: "nvc", price: 400000, quantity: 2 },
+  //   { name: "qwe", price: 2030450, quantity: 1 },
+  //   { name: "jhgfc", price: 859200, quantity: 2 },
+  //   { name: "", price: 0, quantity: 0, isDummy: true },
+  // ];
 
-  const items = [
-    { name: "", price: 0, quantity: 0, isDummy: true },
-    { name: "abds", price: 10000000, quantity: 1 },
-    { name: "vzcx", price: 20300000, quantity: 3 },
-    { name: "gzc", price: 30800000, quantity: 4 },
-    { name: "nvc", price: 400000, quantity: 2 },
-    { name: "qwe", price: 2030450, quantity: 1 },
-    { name: "jhgfc", price: 859200, quantity: 2 },
-    { name: "", price: 0, quantity: 0, isDummy: true },
-  ];
+  useEffect(() => {
+    if (id === 0 && sessionStorage.getItem("id") !== null)
+      setId(+sessionStorage.getItem("id"));
+  }, []);
+  // 장바구니 내 상품 목록 조회
+  useEffect(() => {
+    if (id === 0) return;
+    const config = {
+      method: "GET",
+      url: `http://3.35.58.101:8080/api/cart/${id}/intro`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    fetchData(config);
+  }, [fetchData, id]);
 
+  useEffect(() => {
+    console.log(response);
+    if (response && response.data) {
+      const updatedItems = response.data.map((item: CartItemType) => ({
+        ...item,
+        isDummy: false,
+      }));
+      const dummyItem = {
+        id: -1,
+        product_id: -1,
+        user_id: -1,
+        quantity: 0,
+        name: "",
+        price: 0,
+        image_url1: "",
+        rating: 0,
+        isDummy: true,
+      };
+      setItems([dummyItem, ...updatedItems, dummyItem]);
+    }
+  }, [response]);
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -96,18 +147,22 @@ const Cart = () => {
   return (
     <S.Container ref={containerRef}>
       <S.CartWrapper>
-        {items.map((item, index) => (
-          <S.ItemWrapper
-            key={index}
-            ref={(el) => {
-              itemRefs.current[index] = el;
-            }}
-            isLarge={activeItemIdx === index}
-            style={item.isDummy ? { visibility: "hidden", height: "80px" } : {}}
-          >
-            {!item.isDummy && <CartItem item={item} />}
-          </S.ItemWrapper>
-        ))}
+        {items &&
+          items?.length !== 0 &&
+          items.map((item, index) => (
+            <S.ItemWrapper
+              key={index}
+              ref={(el) => {
+                itemRefs.current[index] = el;
+              }}
+              isLarge={activeItemIdx === index}
+              style={
+                item.isDummy ? { visibility: "hidden", height: "80px" } : {}
+              }
+            >
+              {!item.isDummy && <CartItem item={item} />}
+            </S.ItemWrapper>
+          ))}
       </S.CartWrapper>
     </S.Container>
   );
