@@ -53,7 +53,7 @@ const Cart = () => {
   const [activeItemIdx, setActiveItemIdx] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [items, setItems] = useState<CartItemType[]>();
+  const [items, setItems] = useState<CartItemType[]>([]);
   const { id, setId } = useUserInfo();
   // const items = [
   //   { name: "", price: 0, quantity: 0, isDummy: true },
