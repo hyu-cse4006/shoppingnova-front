@@ -1,5 +1,5 @@
 import Product from "@/components/product/Product";
-import { ProductType } from "@/components/product/type";
+import { SimpleProduct } from "@/components/product/type";
 import { getSpherePositions } from "@/components/three/galaxy/positions";
 import { starTypes } from "@/constants/galaxy";
 import { categories } from "@/constants/category";
@@ -39,7 +39,7 @@ const Products = () => {
   const { categoryName } = useParams();
 
   const { response, error, fetchData } = useAxios();
-  const [productList, setProductList] = useState<ProductType[]>([]);
+  const [productList, setProductList] = useState<SimpleProduct[]>([]);
   useEffect(() => {
     const category = mapCateID(
       categoryName?.toLowerCase().replace(/ /g, "_").replace("&", "")

@@ -101,11 +101,6 @@ const ThreeCanvas = () => {
                 {!isMoving && viewType === "Category" && (
                   <CategoryLinks location={location.pathname.split("/")[1]} />
                 )}
-                {location.pathname.split("/")[1] === "cart" && (
-                  <Html>
-                    <Cart />
-                  </Html>
-                )}
               </ErrorBoundary>
             </GalaxyPoints>
             <Controls />

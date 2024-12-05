@@ -5,7 +5,7 @@ import { createBrowserRouter } from "react-router-dom";
 import MainPage from "./mainpage";
 import Cart from "./cart";
 import Detail from "./detail";
-import { element } from "three/webgpu";
+
 const router = createBrowserRouter([
   {
     path: "",
@@ -17,19 +17,21 @@ const router = createBrowserRouter([
         children: [
           {
             path: ":categoryName",
-            element: <></>,
             children: [
               {
                 path: "product",
-                element: <></>,
                 children: [
                   {
                     path: ":productId",
-                    element: <></>,
+                    element: <Detail />,
                   },
                 ],
               },
             ],
+          },
+          {
+            path: "cart",
+            element: <Cart />,
           },
         ],
       },
@@ -40,10 +42,6 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
-      },
-      {
-        path: "cart",
-        element: <Cart />,
       },
     ],
   },

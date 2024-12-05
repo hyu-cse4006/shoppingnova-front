@@ -16,9 +16,12 @@ type CartItemType = {
 };
 const S = {
   Container: styled.div`
+    position: absolute;
+    z-index: 99;
     width: 60vw;
+    margin: 80px 20vw;
+    max-height: calc(80vh - 80px);
     background-color: transparent;
-    max-height: 80%;
     box-sizing: border-box;
     border-radius: 0 8px 8px 0;
     overflow-y: auto;
@@ -30,6 +33,7 @@ const S = {
   `,
   CartWrapper: styled.div`
     display: flex;
+    margin: 0 auto;
     flex-direction: column;
     gap: 50px;
     align-items: center;

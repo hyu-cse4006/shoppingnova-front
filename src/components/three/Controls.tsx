@@ -89,6 +89,9 @@ export default function Controls() {
 
         if (direction.length() > LENGTH_LIMIT) {
           direction.setLength(LENGTH_LIMIT);
+          setIsMoving(true);
+        } else {
+          setIsMoving(false);
         }
 
         setCurrentView(currentView.add(direction));
