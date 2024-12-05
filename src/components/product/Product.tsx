@@ -17,7 +17,7 @@ interface ProductProps {
 }
 
 export default function Product({ meshProps, color, product }: ProductProps) {
-  const { targetView, setTargetView } = useCameraStore();
+  const { targetView, setTargetView, isMoving } = useCameraStore();
   const { setViewType } = useViewStore();
 
   const meshRef = useRef<Mesh>(null!);
@@ -54,10 +54,12 @@ export default function Product({ meshProps, color, product }: ProductProps) {
     setViewType("Detail");
     setTargetView(meshRef.current);
     navigate(path + page + "/product/" + product.id);
+    setIsHovered(false);
   };
   const handlePointerOver = (e: ThreeEvent<MouseEvent>) => {
+    console.log(e);
     e.stopPropagation();
-    setIsHovered(true);
+    if (!isMoving && !id) setIsHovered(true);
   };
 
   const handlePointerOut = (e: ThreeEvent<MouseEvent>) => {
@@ -75,7 +77,11 @@ export default function Product({ meshProps, color, product }: ProductProps) {
       {...meshProps}
     >
       {isHovered && (
-        <Html>
+        <Html
+          style={{
+            transform: "translate3d(calc(-50%), calc(-120%), 0)",
+          }}
+        >
           <ItemDetailModal product={product} />
           {/* <Label>{product.name}</Label> */}
         </Html>
@@ -83,19 +89,3 @@ export default function Product({ meshProps, color, product }: ProductProps) {
     </Star>
   );
 }
-
-const Label = styled.div`
-  padding: 10px 15px;
-  border-radius: 5px;
-  width: fit-content;
-  max-width: 200px;
-  text-align: center;
-  background-color: #05021fcc;
-  border: #514b75;
-  color: #cbc9df;
-
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  user-select: none;
-`;

@@ -77,8 +77,6 @@ const S = {
 };
 // 추후 데이터 받아와서 표출하기
 const ItemDetailModal = ({ product }: ModalProps) => {
-  const onCartClick = () => {};
-  const onDetailClick = () => {};
   return (
     <S.Container>
       {/* <S.CartBtn src={image} onClick={onCartClick} /> */}

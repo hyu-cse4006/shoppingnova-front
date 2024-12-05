@@ -84,7 +84,6 @@ const Cart = () => {
   }, [fetchData, id]);
 
   useEffect(() => {
-    console.log(response);
     if (response && response.data) {
       const updatedItems = response.data.map((item: CartItemType) => ({
         ...item,

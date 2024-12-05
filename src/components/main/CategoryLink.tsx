@@ -58,10 +58,8 @@ export default function CategoryLink({ data }: LinkProps) {
   const location = useLocation();
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    console.log(e);
     const current = location.pathname.split("/");
     const path = "/";
-    console.log(current);
     if (groupRef.current !== targetView) {
       setTargetView(groupRef.current);
       setIsWarping(data.name);
