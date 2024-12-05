@@ -18,7 +18,7 @@ interface ProductProps {
 
 export default function Product({ meshProps, color, product }: ProductProps) {
   const { targetView, setTargetView } = useCameraStore();
-  const { setView } = useViewStore();
+  const { setViewType } = useViewStore();
   const meshRef = useRef<Mesh>(null!);
 
   const [isHovered, setIsHovered] = useState(false);
@@ -50,6 +50,7 @@ export default function Product({ meshProps, color, product }: ProductProps) {
     const splitedPath = location.pathname.split("/");
     const page = splitedPath[1];
     const path = "/";
+    setViewType("Detail");
     setTargetView(meshRef.current);
     navigate(path + page + "/product/" + product.id);
   };
@@ -91,7 +92,6 @@ const Label = styled.div`
   background-color: #05021fcc;
   border: #514b75;
   color: #cbc9df;
-  transform: translate3d(calc(-50%), calc(-250%), 0);
 
   overflow: hidden;
   text-overflow: ellipsis;

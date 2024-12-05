@@ -3,7 +3,7 @@ import { useCameraStore } from "@/store/useCameraStore";
 import { useViewStore } from "@/store/useViewStore";
 import { OrbitControls } from "@react-three/drei";
 import { Camera, useFrame, useThree } from "@react-three/fiber";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
@@ -47,29 +47,33 @@ export default function Controls() {
     currentView,
     setCurrentView,
     targetView,
+    setTargetView,
     isWarping,
     setIsWarping,
     setIsMoving,
     reset,
   } = useCameraStore();
-  const { view, setView, displayItem } = useViewStore();
+  const { view, setView, viewType } = useViewStore();
   const state = useThree();
-
+  const controlOptions = useMemo(
+    () => ({
+      enablePan: viewType !== "Category",
+      enableZoom: viewType !== "Category",
+      enableRotate: viewType !== "Category",
+    }),
+    [viewType]
+  );
   useEffect(() => {
     setCameraToCurrentView(currentView.distanceTo(state.camera.position));
-  }, [view]);
+  }, [currentView, setCameraToCurrentView, state.camera.position, view]);
   useFrame((state, delta) => {
-    const targetPosition = position.set(0, 0, 0);
+    const targetPosition = new THREE.Vector3(0, 0, 0);
     const LENGTH_LIMIT = ((cameraToCurrentView + 5000) * delta) / 2;
+    const LENGTH_MIN = 100 * delta;
 
     if (targetView) {
       targetView.getWorldPosition(targetPosition);
-      if (!displayItem) {
-        const distance = targetPosition.clone().sub(state.camera.position);
-        distance.y = 0;
-        if (distance.length() > LENGTH_LIMIT) distance.setLength(LENGTH_LIMIT);
-        state.camera.position.add(distance);
-      } else {
+      if (viewType === "Detail") {
         targetPosition
           .sub(state.camera.position)
           .applyAxisAngle(new THREE.Vector3(0, 1, 0), -Math.PI / 6)
@@ -80,42 +84,31 @@ export default function Controls() {
         if (distance.length() > LENGTH_LIMIT) distance.setLength(LENGTH_LIMIT);
         state.camera.position.add(distance);
       }
-    }
+      if (targetPosition !== currentView) {
+        const direction = targetPosition.sub(currentView);
 
-    if (targetPosition !== currentView) {
-      const direction = targetPosition.sub(currentView);
-
-      if (!displayItem) {
         if (direction.length() > LENGTH_LIMIT) {
           direction.setLength(LENGTH_LIMIT);
-          setIsMoving(true);
-
-          setCurrentView(currentView.add(direction));
-          setPostViewCamera(state.camera, currentView, LENGTH_LIMIT);
-          controlsRef.current.target = currentView;
-        } else if (isWarping) {
-          reset();
-          setView(isWarping);
-          setIsWarping(null);
         }
-      } else {
-        if (direction.length() > LENGTH_LIMIT)
-          direction.setLength(LENGTH_LIMIT);
 
         setCurrentView(currentView.add(direction));
-        setCameraPosition(state.camera, currentView, cameraToCurrentView);
-
+        if (viewType !== "Detail") {
+          if (direction.length() > LENGTH_MIN) {
+            setIsMoving(true);
+            setPostViewCamera(state.camera, currentView, LENGTH_LIMIT);
+          } else if (isWarping) {
+            reset();
+            setView(isWarping);
+            setTargetView(null);
+            setIsWarping(null);
+          }
+        } else {
+          setPostViewCamera(state.camera, currentView, LENGTH_LIMIT);
+        }
         controlsRef.current.target = currentView;
       }
     }
   });
 
-  return (
-    <OrbitControls
-      ref={controlsRef}
-      enablePan={displayItem}
-      enableRotate={displayItem}
-      enableZoom={displayItem}
-    />
-  );
+  return <OrbitControls ref={controlsRef} {...controlOptions} />;
 }
