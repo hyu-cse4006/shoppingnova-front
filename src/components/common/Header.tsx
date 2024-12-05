@@ -82,7 +82,7 @@ const Header = () => {
         <div />
       )}
 
-      <S.Logo onClick={() => navigate("/")}>
+      <S.Logo className="select-none" onClick={() => navigate("/")}>
         <span>SHOPPING</span>
         <span>NOVA</span>
       </S.Logo>

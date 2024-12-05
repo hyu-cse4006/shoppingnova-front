@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type ViewType = "Category" | "Products" | "Detail";
+type ViewType = "Category" | "Products" | "Detail" | "Cart";
 interface ViewState {
   view: string | null;
   viewType: ViewType;

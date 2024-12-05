@@ -203,7 +203,6 @@ export default function ProductDetail({
     fetchCartData(config);
   }, [fetchCartData]);
 
-  const { targetView, setTargetView, setCurrentView } = useCameraStore();
   const { setViewType } = useViewStore();
 
   const location = useLocation();
@@ -211,12 +210,9 @@ export default function ProductDetail({
   const navigateToProducts = useCallback(() => {
     const path = location.pathname.split("/");
     if (path.length < 4) return;
-
     setViewType("Detail");
-    setTargetView(null);
-    setCurrentView(new Vector3(0, 0, 0));
     navigate("/" + path[1] + "/" + path[2]);
-  }, [location.pathname, navigate, setCurrentView, setTargetView, setViewType]);
+  }, [location.pathname, navigate, setViewType]);
   useEffect(() => {
     if (cartResponse && cartResponse.data)
       alert("The product has been added to cart successfully!");

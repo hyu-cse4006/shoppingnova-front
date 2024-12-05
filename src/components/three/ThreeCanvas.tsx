@@ -43,8 +43,14 @@ const ThreeCanvas = () => {
     const path = location.pathname.split("/");
     if (!isWarping) {
       if (path.length <= 2) {
-        setViewType("Category");
-        setView(path.length < 2 ? "HOME" : path[1]);
+        console.log(path);
+        if (path[1] === "cart") {
+          setViewType("Cart");
+          setView("Cart");
+        } else {
+          setViewType("Category");
+          setView(path.length < 2 ? "HOME" : path[1]);
+        }
       } else {
         setView(path[1]);
         if (path.length === 4) setViewType("Detail");
@@ -97,7 +103,9 @@ const ThreeCanvas = () => {
             <BackgroundStars />
             <GalaxyPoints>
               <ErrorBoundary renderFallback={(_) => <></>}>
-                {viewType !== "Category" && <Products />}
+                {(viewType === "Products" || viewType === "Detail") && (
+                  <Products />
+                )}
                 {!isMoving && viewType === "Category" && (
                   <CategoryLinks location={location.pathname.split("/")[1]} />
                 )}
