@@ -57,7 +57,7 @@ export default function CategoryLink({ data }: LinkProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
+  const handleClick: React.MouseEventHandler<HTMLDivElement> = (_) => {
     const current = location.pathname.split("/");
     const path = "/";
     if (groupRef.current !== targetView) {

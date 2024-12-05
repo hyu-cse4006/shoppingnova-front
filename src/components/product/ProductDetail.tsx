@@ -248,7 +248,7 @@ export default function ProductDetail({
               dragConstraints={{ left: 0, right: 0 }}
               transition={{ ease: "easeOut", duration: 0.5 }}
               dragElastic={1}
-              onDragEnd={(e, { offset, velocity }) => {
+              onDragEnd={(_, { offset, velocity }) => {
                 const swipe = swipePower(offset.x, velocity.x);
 
                 if (swipe < -swipeConfidenceThreshold) {
