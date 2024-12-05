@@ -202,9 +202,8 @@ const Detail = ({ productId }: DetailProps) => {
       headers: {
         "Content-Type": "application/json",
       },
-      data: {
-        user_id: id,
-        product_id: productId,
+      params: {
+        product_id: +productId,
       },
     };
     fetchCartData(config);

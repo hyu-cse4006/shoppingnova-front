@@ -16,14 +16,13 @@ type CartItemType = {
 };
 const S = {
   Container: styled.div`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 60vw;
+    background-color: transparent;
     max-height: 80%;
     box-sizing: border-box;
     border-radius: 0 8px 8px 0;
     overflow-y: auto;
+    background: none;
     &::-webkit-scrollbar {
       width: 0;
       height: 0;
@@ -63,8 +62,13 @@ const Cart = () => {
   //   { name: "", price: 0, quantity: 0, isDummy: true },
   // ];
 
+  useEffect(() => {
+    if (id === 0 && sessionStorage.getItem("id") !== null)
+      setId(+sessionStorage.getItem("id"));
+  }, []);
   // 장바구니 내 상품 목록 조회
   useEffect(() => {
+    if (id === 0) return;
     const config = {
       method: "GET",
       url: `http://3.35.58.101:8080/api/cart/${id}/intro`,
@@ -73,7 +77,7 @@ const Cart = () => {
       },
     };
     fetchData(config);
-  }, [fetchData]);
+  }, [fetchData, id]);
 
   useEffect(() => {
     console.log(response);
@@ -144,6 +148,7 @@ const Cart = () => {
     <S.Container ref={containerRef}>
       <S.CartWrapper>
         {items &&
+          items?.length !== 0 &&
           items.map((item, index) => (
             <S.ItemWrapper
               key={index}

@@ -61,6 +61,7 @@ const Header = () => {
   const { id } = useUserInfo();
   const navigate = useNavigate();
   const location = useLocation();
+  console.log(id);
   return (
     <S.Container>
       {location.pathname !== "/login" && location.pathname !== "/register" ? (
@@ -74,7 +75,7 @@ const Header = () => {
         <span>SHOPPING</span>
         <span>NOVA</span>
       </S.Logo>
-      {id === null || id === undefined ? (
+      {id === null || id === undefined || id === 0 ? (
         <S.SigninBtn onClick={() => navigate("/login")}>
           <span>Sign in</span>
         </S.SigninBtn>

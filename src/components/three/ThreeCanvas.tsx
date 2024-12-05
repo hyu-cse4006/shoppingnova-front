@@ -17,6 +17,7 @@ import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { type Group, type Object3DEventMap } from "three";
 import { Html } from "@react-three/drei";
+import Cart from "@/routes/cart";
 
 const ThreeCanvas = () => {
   const galaxyRef = useRef<Group<Object3DEventMap>>(null!);
@@ -97,15 +98,22 @@ const ThreeCanvas = () => {
             <GalaxyPoints>
               <ErrorBoundary renderFallback={(_) => <></>}>
                 {displayItem && <Products />}
-                {!isMoving && !displayItem && (
-                  <CategoryLinks location={location.pathname.split("/")[1]} />
-                )}
+                {!isMoving &&
+                  !displayItem &&
+                  location.pathname.split("/")[1] !== "cart" && (
+                    <CategoryLinks location={location.pathname.split("/")[1]} />
+                  )}
                 {displayItem &&
                   location.pathname.split("/")[3] !== undefined && (
                     <Html>
                       <Detail productId={location.pathname.split("/")[3]} />
                     </Html>
                   )}
+                {location.pathname.split("/")[1] === "cart" && (
+                  <Html>
+                    <Cart />
+                  </Html>
+                )}
               </ErrorBoundary>
             </GalaxyPoints>
             <Controls />
