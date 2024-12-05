@@ -3,6 +3,7 @@ import styled from "styled-components";
 import CategoryView from "./CategoryView";
 import { useUserInfo } from "@/utils/global/useUserInfo";
 import { useLocation, useNavigate } from "react-router-dom";
+import image from "../../assets/shopping-cart.png";
 const S = {
   Container: styled.div`
     width: 100%;
@@ -14,7 +15,7 @@ const S = {
     top: 0;
     z-index: 10;
     background: none;
-    padding: 10px;
+    padding: 20px 40px;
   `,
   Logo: styled.div`
     justify-self: center;
@@ -56,11 +57,20 @@ const S = {
       color: white;
     }
   `,
+  CartBtn: styled.img`
+    justify-self: end;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+
+    color: white;
+  `,
 };
 const Header = () => {
   const { id } = useUserInfo();
   const navigate = useNavigate();
   const location = useLocation();
+  console.log(id);
   return (
     <S.Container>
       {location.pathname !== "/login" && location.pathname !== "/register" ? (
@@ -74,12 +84,12 @@ const Header = () => {
         <span>SHOPPING</span>
         <span>NOVA</span>
       </S.Logo>
-      {id === null || id === undefined ? (
+      {id === null || id === undefined || id === 0 ? (
         <S.SigninBtn onClick={() => navigate("/login")}>
           <span>Sign in</span>
         </S.SigninBtn>
       ) : (
-        <div />
+        <S.CartBtn src={image} onClick={() => navigate("/cart")} />
       )}
     </S.Container>
   );
