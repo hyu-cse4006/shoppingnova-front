@@ -8,7 +8,7 @@ const S = {
   Container: styled.div`
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: 60px;
   `,
   Item: styled.div`
     display: flex;
@@ -16,7 +16,7 @@ const S = {
     align-items: center;
     gap: 10px;
     position: relative;
-    width: 40px;
+    width: 60px;
   `,
   Dot: styled.div`
     width: 8px;

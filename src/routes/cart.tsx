@@ -141,7 +141,6 @@ const Cart = () => {
     // 초기 로드 시 한 번 실행
     checkVisibleItem();
 
-    // 클린업 함수
     return () => {
       container.removeEventListener("scroll", checkVisibleItem);
     };
@@ -163,7 +162,7 @@ const Cart = () => {
                 item.isDummy ? { visibility: "hidden", height: "80px" } : {}
               }
             >
-              {!item.isDummy && <CartItem item={item} />}
+              {!item.isDummy && <CartItem item={item} setItems={setItems} />}
             </S.ItemWrapper>
           ))}
       </S.CartWrapper>

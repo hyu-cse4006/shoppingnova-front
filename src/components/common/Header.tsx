@@ -43,6 +43,7 @@ const S = {
     height: 40px;
     justify-self: end;
     padding: 8px 12px 8px 12px;
+    height: 40px;
     border-radius: 12px;
     border: 1px solid #ffffff;
     display: flex;
