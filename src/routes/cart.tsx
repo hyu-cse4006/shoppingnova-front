@@ -63,8 +63,8 @@ const Cart = () => {
   // ];
 
   useEffect(() => {
-    if (id === 0 && sessionStorage.getItem("id") !== null)
-      setId(+sessionStorage.getItem("id"));
+    const _id = sessionStorage.getItem("id");
+    if (id === 0 && _id !== null) setId(+_id);
   }, []);
   // 장바구니 내 상품 목록 조회
   useEffect(() => {
